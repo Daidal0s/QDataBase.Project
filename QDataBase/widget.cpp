@@ -12,4 +12,3 @@ Widget::~Widget()
 {
     delete ui;
 }
-

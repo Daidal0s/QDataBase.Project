@@ -29,6 +29,7 @@ set(PROJECT_SOURCES
         ${HEADER_FILES}
         ${UI_FILES}
         ${TS_FILES}
+        res.qrc
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
