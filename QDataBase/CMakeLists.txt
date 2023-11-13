@@ -2,9 +2,8 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
-
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools Sql)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools Sql)
 
 set(SOURCE_FILES_DIR ${CMAKE_SOURCE_DIR}/QDataBase)
 set(SOURCE_FILES    
@@ -37,10 +36,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
     )
-    qt_add_library(QDataBase 
-        PUBLIC
-        compiler_flags
-    )
+    # qt_add_library(QDataBase 
+    #     PUBLIC
+    #     compiler_flags
+    # )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET QDataBase APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
@@ -63,7 +62,10 @@ else()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
-target_link_libraries(QDataBase PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(QDataBase PRIVATE Qt${QT_VERSION_MAJOR}::Widgets
+                                PRIVATE Qt${QT_VERSION_MAJOR}::Sql
+                                PRIVATE QDBLibrary
+)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
