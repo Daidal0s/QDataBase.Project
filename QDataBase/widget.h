@@ -1,6 +1,7 @@
 #ifndef WIDGET_H
 #define WIDGET_H
 
+#pragma once
 #include <QWidget>
 #include <QSqlDatabase>
 
