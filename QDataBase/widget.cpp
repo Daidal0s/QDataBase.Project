@@ -17,6 +17,8 @@ Widget::Widget(QWidget *parent)
     sdb.setUserName("qdb");
     sdb.setPassword("t3ngentoppagur3nlag4nn");
 
+
+    DB::connectEagerly("mysql");
     auto qquery = QSqlQuery("use QDB", sdb);
 
     sdb.open();

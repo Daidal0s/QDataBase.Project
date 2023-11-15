@@ -11,4 +11,4 @@ target_link_libraries(QDBLibrary PUBLIC compiler_flags
                                  PRIVATE Qt6::Core
                                  PRIVATE TinyOrm::TinyOrm
 )
-target_precompile_headers(QDBLibrary PRIVATE pch.h)
+# target_precompile_headers(QDBLibrary PRIVATE pch.h)

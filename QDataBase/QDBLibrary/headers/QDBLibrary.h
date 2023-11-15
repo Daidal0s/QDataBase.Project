@@ -1,5 +1,6 @@
 #pragma once
 #include <orm/db.hpp>
+#include <orm/utils/configuration.hpp>
 
 using Orm::DB;
 
@@ -8,7 +9,7 @@ auto manager = DB::create({
     {"driver",          "QMYSQL"},
     {"host",            qEnvironmentVariable("DB_HOST", "127.0.0.1")},
     {"port",            qEnvironmentVariable("DB_PORT", "3306")},
-    {"database",        qEnvironmentVariable("DB_DATABASE", "QDB")},
+    {"database",        qEnvironmentVariable("DB_DATABASE", "")},
     {"username",        qEnvironmentVariable("DB_USERNAME", "qdb")},
     {"password",        qEnvironmentVariable("DB_PASSWORD", "t3ngentoppagur3nlag4nn")},
     {"charset",         qEnvironmentVariable("DB_CHARSET", "utf8mb4")},
@@ -19,6 +20,6 @@ auto manager = DB::create({
     {"prefix_indexes",  false},
     {"strict",          true},
     {"engine",          "InnoDB"},
-    {"options",         QVariantHash()},
+    {"options",         Orm::Utils::Configuration::mysqlSslOptions()},
     }},
 });
