@@ -1,5 +1,6 @@
 #pragma once
 #include <orm/db.hpp>
+#include <orm/tiny/model.hpp>
 #include <orm/utils/configuration.hpp>
 
 using Orm::DB;
@@ -23,3 +24,4 @@ auto manager = DB::create({
     {"options",         Orm::Utils::Configuration::mysqlSslOptions()},
     }},
 });
+
