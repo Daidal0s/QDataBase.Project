@@ -1,0 +1,17 @@
+#pragma once
+
+#include "../models/Role.h"
+#include "../models/EmployeePosition.h"
+#include "../models/EmployeeStatus.h"
+#include "../models/LegalForm.h"
+#include "../models/ProjectStatus.h"
+#include "../models/TaskTypeCustomer.h"
+#include "../models/TaskStatusCustomer.h"
+#include "../models/TaskStatusConsumer.h"
+#include "../models/TaskTypeConsumer.h"
+#include "../models/UserData.h"
+#include "../models/Project.h"
+#include "../models/Employee.h"
+#include "../models/ConsumerTask.h"
+#include "../models/CustomersTask.h"
+#include "../models/ProjectRelatedEmployee.h"

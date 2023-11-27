@@ -28,19 +28,19 @@ public:
     std::unique_ptr<HasMany<CustomersTask, TaskTypeCustomer>>
     type()
     {
-        return hasMany<LegalForm>("TaskTypeID","id");
+        return hasMany<TaskTypeCustomer>("TaskTypeID","id");
     }
 
     std::unique_ptr<HasMany<CustomersTask, TaskStatusCustomer>>
     status()
     {
-        return hasMany<LegalForm>("StatusID", "id");
+        return hasMany<TaskStatusCustomer>("StatusID", "id");
     }
 
     std::unique_ptr<HasMany<CustomersTask, Project>>
     project()
     {
-        return hasMany<LegalForm>("RelatedProject", "ProjectID");
+        return hasMany<Project>("RelatedProject", "ProjectID");
     }
 private:
     QString u_connection {"mysql"};

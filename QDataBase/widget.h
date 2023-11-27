@@ -22,6 +22,7 @@ public:
 
 private slots:
     void DEV_createDB();
+    void DEV_testBD();
 
 private:
     Ui::Widget *ui;

@@ -24,11 +24,12 @@ public:
     std::unique_ptr<HasMany<ProjectRelatedEmployees, UserData>>
     employee()
     {
-        return hasMany<Project>("Employee", "Login");
+        return hasMany<UserData>("Employee", "Login");
     }
 private:
     QString u_connection {"mysql"};
     QString u_table {"projects_employees"};
+    bool u_timestamps = false;
 
     inline static QStringList u_fillable {
         "ProjectID",

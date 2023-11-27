@@ -26,13 +26,13 @@ public:
     std::unique_ptr<HasMany<ConsumerTask, TaskStatusConsumer>>
     status()
     {
-        return hasMany<TaskTypeConsumer>("StatusID", "id");
+        return hasMany<TaskStatusConsumer>("StatusID", "id");
     }
 
     std::unique_ptr<HasMany<ConsumerTask, UserData>>
     employee()
     {
-        return hasMany<TaskTypeConsumer>("RelatedEmployee", "Login");
+        return hasMany<UserData>("RelatedEmployee", "Login");
     }
 private:
     QString u_connection {"mysql"};
@@ -47,7 +47,6 @@ private:
         {"added_on", QDateTime::currentDateTime()},
     };
     inline static QStringList u_fillable {
-        "TaskID",
         "FIO",
         "TaskTypeID",
         "ContactDataNum",

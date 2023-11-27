@@ -24,7 +24,7 @@ public:
     std::unique_ptr<HasMany<Project, ProjectStatus>>
     status()
     {
-        return hasMany<UserData>("StatusID","id");
+        return hasMany<ProjectStatus>("StatusID","id");
     }
 private:
     QString u_connection {"mysql"};
@@ -39,7 +39,6 @@ private:
         {"added_on", QDateTime::currentDateTime()},
     };
     inline static QStringList u_fillable {
-        "ProjectID",
         "ProjectName",
         "TeamLeader",
         "Description",

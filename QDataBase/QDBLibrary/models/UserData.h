@@ -21,10 +21,8 @@ private:
     QString u_table {"user_data"};
     QString u_primaryKey {"Login"};
 
-    inline static const QVector<AttributeItem> u_attributes
-    {
-        {"RoleID", NULL},
-    };
+    bool u_timestamps = false;
+
     inline static QStringList u_fillable {
         "Login",
         "Password",

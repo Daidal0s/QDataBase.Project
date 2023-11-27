@@ -21,6 +21,11 @@ Widget::Widget(QWidget *parent)
     QPushButton *btn = new QPushButton(this);
     btn->setText("CreateDB");
     connect(btn, SIGNAL(clicked()), SLOT(DEV_createDB()));
+
+    QPushButton *btn2 = new QPushButton(this);
+    btn2->setText("TestBD");
+    btn2->move(10, 40);
+    connect(btn2, SIGNAL(clicked()), SLOT(DEV_testBD()));
 #endif
 }
 
@@ -32,4 +37,9 @@ Widget::~Widget()
 void Widget::DEV_createDB()
 {
     createDB();
+}
+
+void Widget::DEV_testBD()
+{
+    testModels();
 }

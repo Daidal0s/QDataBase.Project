@@ -39,6 +39,8 @@ private:
     QString u_table {"employees"};
     QString u_primaryKey {"AuthData"};
 
+    bool u_timestamps = false;
+
     inline static QStringList u_fillable {
         "AuthData",
         "FIO",

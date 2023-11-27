@@ -5,6 +5,8 @@
 #include <orm/schema.hpp>
 #include <orm/schema/blueprint.hpp>
 
+#include "AllModels.h"
+
 using Orm::DB;
 
 inline std::shared_ptr<Orm::DatabaseManager> manager = DB::create({
@@ -12,7 +14,7 @@ inline std::shared_ptr<Orm::DatabaseManager> manager = DB::create({
     {"driver",          "QMYSQL"},
     {"host",            qEnvironmentVariable("DB_HOST", "127.0.0.1")},
     {"port",            qEnvironmentVariable("DB_PORT", "3306")},
-    {"database",        qEnvironmentVariable("DB_DATABASE", "Test")},
+    {"database",        qEnvironmentVariable("DB_DATABASE", "Test2")},
     {"username",        qEnvironmentVariable("DB_USERNAME", "qdb")},
     {"password",        qEnvironmentVariable("DB_PASSWORD", "t3ngentoppagur3nlag4nn")},
     {"charset",         qEnvironmentVariable("DB_CHARSET", "utf8mb4")},
@@ -28,3 +30,5 @@ inline std::shared_ptr<Orm::DatabaseManager> manager = DB::create({
 }, "mysql");
 
 void createDB();
+
+void testModels();

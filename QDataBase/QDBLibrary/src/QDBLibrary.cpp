@@ -140,7 +140,7 @@ void createDB()
             table.string("ContactDataEMail").nullable();
             table.unsignedInteger("StatusID").nullable();
             
-            table.foreign("AuthData").references("Login").on("user_data").restrictOnDelete().cascadeOnUpdate();
+            table.foreign("AuthData").references("Login").on("user_data").cascadeOnDelete().cascadeOnUpdate();
             table.foreign("PositionID").references("id").on("employee_positions").nullOnDelete().cascadeOnUpdate();
             table.foreign("StatusID").references("id").on("employee_status").nullOnDelete().cascadeOnUpdate();
         });
@@ -227,4 +227,106 @@ void createDB()
     }
 
     qDebug() << "Count of new created tabels: " << countOfCreatedTables;
+}
+
+
+void testModels()
+{
+    Role::updateOrCreate({{"RoleName", "AAAA"}, {"Description", "AAAAA"}});
+
+    auto ep = EmployeePosition::updateOrCreate({});
+
+    auto es = EmployeeStatus::updateOrCreate({});
+
+    auto lf = LegalForm::updateOrCreate({});
+
+    auto ps = ProjectStatus::updateOrCreate({});
+
+    auto tsco = TaskStatusConsumer::updateOrCreate({});
+
+    auto tscu = TaskStatusCustomer::updateOrCreate({});
+
+    auto ttco = TaskTypeConsumer::updateOrCreate({});
+
+    auto ttcu = TaskTypeCustomer::updateOrCreate({});
+
+    auto ud = UserData::create(
+        {
+            {"Login", "aaAaa"},
+            {"Password", "aafAaa"},
+            {"RoleID", 1},
+        }
+    );
+
+    auto e = Employee::create(
+        {
+            {"AuthData", "aaAaa"},
+            {"FIO", "ooOOoooO"},
+            {"PassportData", "ooOOoooO"},
+            {"BirthDay", QDate::currentDate()},
+            {"PositionID", 1},
+            {"ContactDataNum", "ooOOoooO"},
+            {"ContactDataEMail", "ooOOoooO"},
+            {"StatusID", 1},
+        }
+    );
+
+    auto cot = ConsumerTask::updateOrCreate(
+        {
+            {"FIO", "asfsdlkfgjnd"},
+            {"TaskTypeID", 1},
+            {"ContactDataNum", "asdas"},
+            {"RelatedEmployee", "aaAaa"},
+            {"StatusID", 1},
+        }
+    );
+
+    auto p = Project::updateOrCreate(
+        {
+            {"ProjectName", "loi"},
+            {"TeamLeader", "aaAaa"},
+            {"Description", "loi"},
+            {"Documentation", "loi"},
+            {"StatusID", 1},
+        }
+    );
+
+    auto cut = CustomersTask::create(
+        {
+            {"INN", "fgksl"},
+            {"LegalFormID", 1},
+            {"Name", "fgkl"},
+            {"Adress", "fgkl"},
+            {"TaskTypeID", 1},
+            {"Profitability", 9999},
+            {"ContactDataNum", "ffgkl"},
+            {"StatusID", 1},
+            {"RelatedProject", 1},
+        }
+    );
+
+    auto pre = ProjectRelatedEmployees::create(
+        {
+            {"ProjectID", 1},
+            {"Employee", "aaAaa"},
+        }
+    );
+
+    pre.whereEq("ProjectID", 1)->remove();
+    cut.whereEq("INN","fgksl")->remove();
+    p.remove();
+    cot.remove();
+    e.whereEq("AuthData","aaAaa")->remove();
+    ud.whereEq("Login","aaAaa")->remove();
+    ttcu.remove();
+    ttco.remove();
+    tscu.remove();
+    tsco.remove();
+    ps.remove();
+    lf.remove();
+    es.remove();
+    ep.remove();
+    Role::where("id", "!=", "0")->remove();
+
+    qDebug() << "Test complited!";
 }

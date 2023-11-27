@@ -15,6 +15,7 @@ private:
     QString u_primaryKey {"id"};
 
     bool u_incrementing = true;
+    bool u_timestamps = false;
 
     inline static const QVector<AttributeItem> u_attributes
     {
