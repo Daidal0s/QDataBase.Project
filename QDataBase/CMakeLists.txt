@@ -5,6 +5,8 @@ set(CMAKE_AUTORCC ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools Sql)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools Sql)
 
+option(DEV_BUILD "adds some dev shit" ON)
+
 set(SOURCE_FILES_DIR ${CMAKE_SOURCE_DIR}/QDataBase)
 set(SOURCE_FILES    
         ${SOURCE_FILES_DIR}/main.cpp
@@ -40,7 +42,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 #    set_property(TARGET QDataBase APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
 # For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
-
+    if(DEV_BUILD)
+        target_compile_definitions(QDataBase PRIVATE DEV_BUILD)
+    endif()
     qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 else()
     if(ANDROID)

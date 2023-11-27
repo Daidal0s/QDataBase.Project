@@ -2,20 +2,22 @@
 #include <orm/db.hpp>
 #include <orm/tiny/model.hpp>
 #include <orm/utils/configuration.hpp>
+#include <orm/schema.hpp>
+#include <orm/schema/blueprint.hpp>
 
 using Orm::DB;
 
-auto manager = DB::create({
+inline std::shared_ptr<Orm::DatabaseManager> manager = DB::create({
     {"mysql", {
     {"driver",          "QMYSQL"},
     {"host",            qEnvironmentVariable("DB_HOST", "127.0.0.1")},
     {"port",            qEnvironmentVariable("DB_PORT", "3306")},
-    {"database",        qEnvironmentVariable("DB_DATABASE", "")},
+    {"database",        qEnvironmentVariable("DB_DATABASE", "Test")},
     {"username",        qEnvironmentVariable("DB_USERNAME", "qdb")},
     {"password",        qEnvironmentVariable("DB_PASSWORD", "t3ngentoppagur3nlag4nn")},
     {"charset",         qEnvironmentVariable("DB_CHARSET", "utf8mb4")},
     {"collation",       qEnvironmentVariable("DB_COLLATION", "utf8mb4_unicode_520_ci")},
-    {"timezone",        "+00:00"},
+    {"timezone",        "+05:00"},
     {"qt_timezone",     QVariant::fromValue(Qt::LocalTime)},
     {"prefix",          ""},
     {"prefix_indexes",  false},
@@ -23,5 +25,6 @@ auto manager = DB::create({
     {"engine",          "InnoDB"},
     {"options",         Orm::Utils::Configuration::mysqlSslOptions()},
     }},
-});
+}, "mysql");
 
+void createDB();
