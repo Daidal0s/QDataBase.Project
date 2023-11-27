@@ -1,6 +1,7 @@
 #include "widget.h"
 #include "ui_widget.h"
 #include "QDBLibrary.h"
+#include <QTableView>
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
@@ -27,6 +28,10 @@ Widget::Widget(QWidget *parent)
     btn2->move(10, 40);
     connect(btn2, SIGNAL(clicked()), SLOT(DEV_testBD()));
 #endif
+
+    QTableView *table = new QTableView(this);
+    table->move(60, 10);
+    table->setModel(Role::all()->get());
 }
 
 Widget::~Widget()
