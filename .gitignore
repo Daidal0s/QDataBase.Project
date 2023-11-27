@@ -73,6 +73,6 @@ CMakeLists.txt.user*
 *.exe
 
 build*/
-.vscode/
+.vscode/*
 !.vscode/TinySnippet.code-snippets
 .cache/
