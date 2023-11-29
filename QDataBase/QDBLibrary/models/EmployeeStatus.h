@@ -1,8 +1,5 @@
 #pragma once
-#include "orm/tiny/model.hpp"
-#include <orm/schema.hpp>
-#include <orm/schema/blueprint.hpp>
-
+#include "stdafx.h"
 using Orm::Tiny::Model;
 
 class EmployeeStatus final : public Model<EmployeeStatus>

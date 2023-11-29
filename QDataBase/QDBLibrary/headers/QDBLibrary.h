@@ -1,10 +1,5 @@
 #pragma once
-#include <orm/db.hpp>
-#include <orm/tiny/model.hpp>
-#include <orm/utils/configuration.hpp>
-#include <orm/schema.hpp>
-#include <orm/schema/blueprint.hpp>
-
+#include "stdafx.h"
 #include "AllModels.h"
 
 using Orm::DB;
@@ -14,7 +9,7 @@ inline std::shared_ptr<Orm::DatabaseManager> manager = DB::create({
     {"driver",          "QMYSQL"},
     {"host",            qEnvironmentVariable("DB_HOST", "127.0.0.1")},
     {"port",            qEnvironmentVariable("DB_PORT", "3306")},
-    {"database",        qEnvironmentVariable("DB_DATABASE", "Test2")},
+    {"database",        qEnvironmentVariable("DB_DATABASE", "QDB")},
     {"username",        qEnvironmentVariable("DB_USERNAME", "qdb")},
     {"password",        qEnvironmentVariable("DB_PASSWORD", "t3ngentoppagur3nlag4nn")},
     {"charset",         qEnvironmentVariable("DB_CHARSET", "utf8mb4")},
@@ -32,3 +27,5 @@ inline std::shared_ptr<Orm::DatabaseManager> manager = DB::create({
 void createDB();
 
 void testModels();
+
+void fillDB(bool isCreatedBefore);

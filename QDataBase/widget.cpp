@@ -2,6 +2,10 @@
 #include "ui_widget.h"
 #include "QDBLibrary.h"
 #include <QTableView>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QSqlDatabase>
+#include <QSqlTableModel>
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
@@ -19,19 +23,52 @@ Widget::Widget(QWidget *parent)
         setWindowTitle("OK!");
 
 #ifdef DEV_BUILD
-    QPushButton *btn = new QPushButton(this);
+    auto qdb = QSqlDatabase::addDatabase("QMYSQL");
+    qdb.setHostName("127.0.0.1");
+    qdb.setPort(3306);
+    qdb.setUserName("qdb");
+    qdb.setPassword("t3ngentoppagur3nlag4nn");
+    qdb.setDatabaseName("QDB");
+
+    qdb.open();
+
+    QVBoxLayout *mainLayout = new QVBoxLayout(this);
+    QHBoxLayout *layout = new QHBoxLayout();
+
+    QPushButton *btn = new QPushButton();
     btn->setText("CreateDB");
     connect(btn, SIGNAL(clicked()), SLOT(DEV_createDB()));
 
-    QPushButton *btn2 = new QPushButton(this);
+    QPushButton *btn2 = new QPushButton();
     btn2->setText("TestBD");
-    btn2->move(10, 40);
     connect(btn2, SIGNAL(clicked()), SLOT(DEV_testBD()));
-#endif
 
-    QTableView *table = new QTableView(this);
-    table->move(60, 10);
-    table->setModel(Role::all()->get());
+    QPushButton *btn3 = new QPushButton();
+    btn3->setText("Fill Role, Position, Auth, Status, Employee");
+    connect(btn3, SIGNAL(clicked()), SLOT(DEV_fillSomeTables()));
+
+    QPushButton *btn4 = new QPushButton();
+    btn4->setText("Fill BD");
+    connect(btn4, SIGNAL(clicked()), SLOT(DEV_fillAllTables()));
+
+    layout->addWidget(btn);
+    layout->addWidget(btn2);
+    layout->addWidget(btn3);
+    layout->addWidget(btn4);
+
+    mainLayout->addLayout(layout);
+
+    if (qdb.isOpen())
+    {
+        auto tablem = new QSqlTableModel();
+        tablem->setTable("employees");
+        tablem->select();
+
+        auto table = new QTableView();
+        table->setModel(tablem);
+        mainLayout->addWidget(table);
+    }
+#endif
 }
 
 Widget::~Widget()
@@ -47,4 +84,49 @@ void Widget::DEV_createDB()
 void Widget::DEV_testBD()
 {
     testModels();
+}
+
+void Widget::DEV_fillSomeTables()
+{
+    if (UserData::count() == 0)
+    {
+        auto role = Role::firstOrCreate(
+            {
+                {"RoleName", "User"},
+            });
+
+        auto auth = UserData::create(
+            {
+                {"Login", "pivo2323"},
+                {"Password", "dochkaSuper"},
+                {"RoleID", 1},
+            });
+
+        auto eplPos = EmployeePosition::firstOrCreate(
+            {
+                {"PositionName", "Genius"},
+            });
+
+        auto eplStatus = EmployeeStatus::firstOrCreate(
+            {
+                {"EmployeeStatus", "Alive"},
+            });
+
+        auto epl = Employee::create(
+            {
+                {"AuthData", "pivo2323"},
+                {"FIO", "Zubenko Кирил Mefody"},
+                {"PassportData", "22 81 337228"},
+                {"BirthDay", QDate::currentDate()},
+                {"PositionID", "1"},
+                {"ContactDataNum", "+7 777 777 77 77"},
+                {"ContactDataEMail", "mama@mama.su"},
+                {"StatusID", "1"},
+            });
+    }
+}
+
+void Widget::DEV_fillAllTables()
+{
+    fillDB(false);
 }

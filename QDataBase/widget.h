@@ -23,6 +23,8 @@ public:
 private slots:
     void DEV_createDB();
     void DEV_testBD();
+    void DEV_fillSomeTables();
+    void DEV_fillAllTables();
 
 private:
     Ui::Widget *ui;

@@ -1,7 +1,5 @@
 #pragma once
-#include "orm/tiny/model.hpp"
-#include <orm/schema.hpp>
-#include <orm/schema/blueprint.hpp>
+#include "stdafx.h"
 #include "Project.h"
 #include "UserData.h"
 
