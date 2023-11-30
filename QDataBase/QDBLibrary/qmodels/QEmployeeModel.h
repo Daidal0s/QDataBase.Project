@@ -1,1 +1,2 @@
-#include "stdaf"
+#pragma once
+

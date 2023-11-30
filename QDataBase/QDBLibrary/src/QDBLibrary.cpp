@@ -623,6 +623,30 @@ void fillDB(bool isCreatedBefore)
         {"StatusID", 2},
     });
 
+    Employee::create(
+    {
+        {"AuthData", "dmitroUK"},
+        {"FIO", "Исако Дмитро Миколович"},
+        {"PassportData", "87 89 997895"},
+        {"BirthDay", QDate::currentDate()},
+        {"PositionID", 2},
+        {"ContactDataNum", "+7 952 332 32 00"},
+        {"ContactDataEMail", "ferariUK@gmail.com"},
+        {"StatusID", 2},
+    });
+
+    Employee::create(
+    {
+        {"AuthData", "maycraftHolms4ever"},
+        {"FIO", "Холмс Мэйкрафт Иванович"},
+        {"PassportData", "87 89 682006"},
+        {"BirthDay", QDate::currentDate()},
+        {"PositionID", 2},
+        {"ContactDataNum", "+7 972 916 32 00"},
+        {"ContactDataEMail", "holmses4ever@gmail.com"},
+        {"StatusID", 2},
+    });
+
     ConsumerTask::updateOrCreate(
         {
             {"FIO", "Язагит Лера"},
@@ -634,7 +658,7 @@ void fillDB(bool isCreatedBefore)
 
     ConsumerTask::updateOrCreate(
         {
-            {"FIO", "Пи Дверь"},
+            {"FIO", "Иван Капустин"},
             {"TaskTypeID", 2},
             {"ContactDataNum", "Placeholder"},
             {"RelatedEmployee", "microchelik2004"},
@@ -642,13 +666,49 @@ void fillDB(bool isCreatedBefore)
         });
 
     ConsumerTask::updateOrCreate(
-        {
-            {"FIO", "Чёрный Сталкер"},
-            {"TaskTypeID", 2},
-            {"ContactDataNum", "Placeholder"},
-            {"RelatedEmployee", "kitaec2312"},
-            {"StatusID", 3},
-        });
+    {
+        {"FIO", "Чёрный Сталкер"},
+        {"TaskTypeID", 2},
+        {"ContactDataNum", "Placeholder"},
+        {"RelatedEmployee", "kitaec2312"},
+        {"StatusID", 3},
+    });
+
+    ConsumerTask::updateOrCreate(
+    {
+        {"FIO", "Белый Сталкер"},
+        {"TaskTypeID", 1},
+        {"ContactDataNum", "Placeholder"},
+        {"RelatedEmployee", "vadik024"},
+        {"StatusID", 2},
+    });
+    
+    ConsumerTask::updateOrCreate(
+    {
+        {"FIO", "Гендальф Серый"},
+        {"TaskTypeID", 2},
+        {"ContactDataNum", "Placeholder"},
+        {"RelatedEmployee", "volonDeMort"},
+        {"StatusID", 1},
+    });
+
+    ConsumerTask::updateOrCreate(
+    {
+        {"FIO", "Военкомат"},
+        {"TaskTypeID", 2},
+        {"ContactDataNum", "Placeholder"},
+        {"RelatedEmployee", "dmitroUK"},
+        {"StatusID", 2},
+    });
+
+    ConsumerTask::updateOrCreate(
+    {
+        {"FIO", "Шерлок Холмс"},
+        {"TaskTypeID", 2},
+        {"ContactDataNum", "Placeholder"},
+        {"RelatedEmployee", "maycraftHolms4ever"},
+        {"StatusID", 3},
+    });
 
     Project::updateOrCreate(
         {
@@ -692,4 +752,29 @@ void fillDB(bool isCreatedBefore)
                 {"Employee", "tsarbatushka666"},
             });
     }
+
+    ProjectRelatedEmployees::create(
+    {
+        {"ProjectID", 1},
+        {"Employee", "vadik024"},
+    });
+
+    ProjectRelatedEmployees::create(
+    {
+        {"ProjectID", 1},
+        {"Employee", "volonDeMort"},
+    });
+
+    ProjectRelatedEmployees::create(
+    {
+        {"ProjectID", 1},
+        {"Employee", "dmitroUK"},
+    });
+
+    ProjectRelatedEmployees::create(
+    {
+        {"ProjectID", 1},
+        {"Employee", "maycraftHolms4ever"},
+    });
+    
 }

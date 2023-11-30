@@ -124,9 +124,11 @@ void Widget::DEV_fillSomeTables()
                 {"StatusID", "1"},
             });
     }
+
+    Employee::all().toVector();
 }
 
 void Widget::DEV_fillAllTables()
 {
-    fillDB(false);
+    fillDB(true);
 }
