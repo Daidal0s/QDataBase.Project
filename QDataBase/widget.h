@@ -2,11 +2,8 @@
 #define WIDGET_H
 
 #pragma once
-#include <QWidget>
-#include <QSqlDatabase>
-#include <QSqlError>
-#include <QDebug>
-#include <QPushButton>
+#include "stdafx.h"
+#include "TableTemplate.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -19,6 +16,8 @@ class Widget : public QWidget
 public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
+
+    QEmployee *testTable = new QEmployee(this);
 
 private slots:
     void DEV_createDB();

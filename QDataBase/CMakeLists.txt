@@ -11,11 +11,13 @@ set(SOURCE_FILES_DIR ${CMAKE_SOURCE_DIR}/QDataBase)
 set(SOURCE_FILES    
         ${SOURCE_FILES_DIR}/main.cpp
         ${SOURCE_FILES_DIR}/widget.cpp
+        ${SOURCE_FILES_DIR}/QEmployee.cpp
 )
 
 set(HEADER_FILES_DIR ${CMAKE_SOURCE_DIR}/QDataBase)
 set(HEADER_FILES    
         ${HEADER_FILES_DIR}/widget.h
+        ${HEADER_FILES_DIR}/TableTemplate.h
 )
 
 set(UI_FILES_DIR ${CMAKE_SOURCE_DIR}/QDataBase)
@@ -62,6 +64,7 @@ else()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
+target_precompile_headers(QDataBase PRIVATE stdafx.h)
 target_link_libraries(QDataBase PRIVATE Qt${QT_VERSION_MAJOR}::Widgets
                                 PRIVATE Qt${QT_VERSION_MAJOR}::Sql
                                 PRIVATE QDBLibrary

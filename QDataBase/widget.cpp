@@ -1,11 +1,5 @@
 #include "widget.h"
 #include "ui_widget.h"
-#include "QDBLibrary.h"
-#include <QTableView>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
-#include <QSqlDatabase>
-#include <QSqlTableModel>
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
@@ -56,16 +50,23 @@ Widget::Widget(QWidget *parent)
     layout->addWidget(btn3);
     layout->addWidget(btn4);
 
+    // auto names = Employee::value("Login").toList();
+    // auto empp = Employee::findMany(names);
+    
+    qDebug() << Project::all().size() << " " << Project::first()->toVector().toList().size();
+
     mainLayout->addLayout(layout);
 
     if (qdb.isOpen())
     {
-        auto tablem = new QSqlTableModel();
+        auto tablem = new QSqlRelationalTableModel();
+        tablem->setRelation(7, QSqlRelation("employee_status","id","EmployeeStatus"));
         tablem->setTable("employees");
         tablem->select();
+        // tablem->setQuery(empp);
 
         auto table = new QTableView();
-        table->setModel(tablem);
+        table->setModel(testTable);
         mainLayout->addWidget(table);
     }
 #endif
