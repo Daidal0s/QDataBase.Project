@@ -60,13 +60,16 @@ Widget::Widget(QWidget *parent)
     if (qdb.isOpen())
     {
         auto tablem = new QSqlRelationalTableModel();
-        tablem->setRelation(7, QSqlRelation("employee_status","id","EmployeeStatus"));
+        tablem->setEditStrategy(QSqlTableModel::OnRowChange);
         tablem->setTable("employees");
+        // tablem->setRelation(7, QSqlRelation("employee_status","id","EmployeeStatus"));
         tablem->select();
         // tablem->setQuery(empp);
 
         auto table = new QTableView();
-        table->setModel(testTable);
+        table->setModel(tablem);
+        table->setItemDelegateForColumn(7, new QSqlRelationalDelegate(tablem));
+        table->hideColumn(0);
         mainLayout->addWidget(table);
     }
 #endif

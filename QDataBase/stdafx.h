@@ -14,3 +14,4 @@
 #include <QSqlTableModel>
 #include <QDataWidgetMapper>
 #include <QSqlRelationalTableModel>
+#include <QSqlRelationalDelegate>
