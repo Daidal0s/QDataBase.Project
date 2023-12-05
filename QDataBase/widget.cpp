@@ -2,21 +2,20 @@
 #include "ui_widget.h"
 
 Widget::Widget(QWidget *parent)
-    : QWidget(parent)
-    , ui(new Ui::Widget)
+    : QWidget(parent), ui(new Ui::Widget)
 {
 
     ui->setupUi(this);
 
     DB::connectEagerly("mysql");
 
-    if (!DB::connection("mysql").isOpen()) {
+    if (!DB::connection("mysql").isOpen())
+    {
         setWindowTitle("SHIT!");
     }
     else
         setWindowTitle("OK!");
 
-#ifdef DEV_BUILD
     auto qdb = QSqlDatabase::addDatabase("QMYSQL");
     qdb.setHostName("127.0.0.1");
     qdb.setPort(3306);
@@ -26,51 +25,36 @@ Widget::Widget(QWidget *parent)
 
     qdb.open();
 
-    QVBoxLayout *mainLayout = new QVBoxLayout(this);
-    QHBoxLayout *layout = new QHBoxLayout();
+    m_employees = new QSqlRelationalTableModel();
+    m_employees->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    m_employees->setTable("employees");
+    m_employees->setRelation(0, QSqlRelation("user_data", "Login", "Login"));
+    m_employees->setRelation(7, QSqlRelation("employee_status", "id", "EmployeeStatus"));
+    m_employees->select();
 
-    QPushButton *btn = new QPushButton();
-    btn->setText("CreateDB");
-    connect(btn, SIGNAL(clicked()), SLOT(DEV_createDB()));
+    m_contasks = new QSqlRelationalTableModel();
+    m_contasks->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    m_contasks->setTable("consumers_tasks");
+    m_contasks->select();
 
-    QPushButton *btn2 = new QPushButton();
-    btn2->setText("TestBD");
-    connect(btn2, SIGNAL(clicked()), SLOT(DEV_testBD()));
-
-    QPushButton *btn3 = new QPushButton();
-    btn3->setText("Fill Role, Position, Auth, Status, Employee");
-    connect(btn3, SIGNAL(clicked()), SLOT(DEV_fillSomeTables()));
-
-    QPushButton *btn4 = new QPushButton();
-    btn4->setText("Fill BD");
-    connect(btn4, SIGNAL(clicked()), SLOT(DEV_fillAllTables()));
-
-    layout->addWidget(btn);
-    layout->addWidget(btn2);
-    layout->addWidget(btn3);
-    layout->addWidget(btn4);
-
-    // auto names = Employee::value("Login").toList();
-    // auto empp = Employee::findMany(names);
+    m_custasks = new QSqlRelationalTableModel();
+    m_custasks->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    m_custasks->setTable("customers_tasks");
+    m_custasks->select();
     
+#ifdef DEV_BUILD
     qDebug() << Project::all().size() << " " << Project::first()->toVector().toList().size();
-
-    mainLayout->addLayout(layout);
 
     if (qdb.isOpen())
     {
-        auto tablem = new QSqlRelationalTableModel();
-        tablem->setEditStrategy(QSqlTableModel::OnRowChange);
-        tablem->setTable("employees");
-        // tablem->setRelation(7, QSqlRelation("employee_status","id","EmployeeStatus"));
-        tablem->select();
         // tablem->setQuery(empp);
 
-        auto table = new QTableView();
-        table->setModel(tablem);
-        table->setItemDelegateForColumn(7, new QSqlRelationalDelegate(tablem));
-        table->hideColumn(0);
-        mainLayout->addWidget(table);
+        ui->tv_sql->setModel(m_employees);
+        ui->tv_sql->setSelectionBehavior(QAbstractItemView::SelectRows);
+        ui->tv_sql->setSelectionMode(QAbstractItemView::SingleSelection);
+        ui->tv_sql->resizeColumnsToContents();
+        ui->tv_sql->setItemDelegateForColumn(7, new QSqlRelationalDelegate(m_employees));
+        ui->tv_sql->hideColumn(0);
     }
 #endif
 }
@@ -80,59 +64,52 @@ Widget::~Widget()
     delete ui;
 }
 
-void Widget::DEV_createDB()
-{
-    createDB();
-}
 
-void Widget::DEV_testBD()
+void Widget::on_cb_model_currentIndexChanged(int index)
 {
-    testModels();
-}
-
-void Widget::DEV_fillSomeTables()
-{
-    if (UserData::count() == 0)
+    switch (index)
     {
-        auto role = Role::firstOrCreate(
-            {
-                {"RoleName", "User"},
-            });
-
-        auto auth = UserData::create(
-            {
-                {"Login", "pivo2323"},
-                {"Password", "dochkaSuper"},
-                {"RoleID", 1},
-            });
-
-        auto eplPos = EmployeePosition::firstOrCreate(
-            {
-                {"PositionName", "Genius"},
-            });
-
-        auto eplStatus = EmployeeStatus::firstOrCreate(
-            {
-                {"EmployeeStatus", "Alive"},
-            });
-
-        auto epl = Employee::create(
-            {
-                {"AuthData", "pivo2323"},
-                {"FIO", "Zubenko Кирил Mefody"},
-                {"PassportData", "22 81 337228"},
-                {"BirthDay", QDate::currentDate()},
-                {"PositionID", "1"},
-                {"ContactDataNum", "+7 777 777 77 77"},
-                {"ContactDataEMail", "mama@mama.su"},
-                {"StatusID", "1"},
-            });
+    default:
+        break;
+    case 0:
+        ui->tv_sql->setModel(m_employees);
+        ui->tv_sql->setSelectionBehavior(QAbstractItemView::SelectRows);
+        ui->tv_sql->setSelectionMode(QAbstractItemView::SingleSelection);
+        ui->tv_sql->resizeColumnsToContents();
+        break;
+    case 1:
+        ui->tv_sql->setModel(m_contasks);
+        ui->tv_sql->setSelectionBehavior(QAbstractItemView::SelectRows);
+        ui->tv_sql->setSelectionMode(QAbstractItemView::SingleSelection);
+        ui->tv_sql->resizeColumnsToContents();
+        break;
+    case 2:
+        ui->tv_sql->setModel(m_custasks);
+        ui->tv_sql->setSelectionBehavior(QAbstractItemView::SelectRows);
+        ui->tv_sql->setSelectionMode(QAbstractItemView::SingleSelection);
+        ui->tv_sql->resizeColumnsToContents();
+        break;
     }
-
-    Employee::all().toVector();
 }
 
-void Widget::DEV_fillAllTables()
+
+void Widget::on_pb_submitChanges_clicked()
 {
-    fillDB(true);
+    ui->tv_sql->model()->submit();
+
+    switch (ui->cb_model->currentIndex())
+    {
+    default:
+        break;
+    case 0:
+        m_employees->submitAll();
+        break;
+    case 1:
+        m_contasks->submitAll();
+        break;
+    case 2:
+        m_custasks->submitAll();
+        break;
+    }
 }
+

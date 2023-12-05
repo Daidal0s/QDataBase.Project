@@ -17,13 +17,16 @@ public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
 
+
     QEmployee *testTable = new QEmployee(this);
 
+    QSqlRelationalTableModel* m_employees;
+    QSqlRelationalTableModel* m_custasks;
+    QSqlRelationalTableModel* m_contasks;
 private slots:
-    void DEV_createDB();
-    void DEV_testBD();
-    void DEV_fillSomeTables();
-    void DEV_fillAllTables();
+    void on_cb_model_currentIndexChanged(int index);
+
+    void on_pb_submitChanges_clicked();
 
 private:
     Ui::Widget *ui;

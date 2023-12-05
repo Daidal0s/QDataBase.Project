@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dev</class>
+ <widget class="QDialog" name="Dev">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QSplitter" name="splitter">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>80</y>
+     <width>87</width>
+     <height>104</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+   <widget class="QPushButton" name="pb_create">
+    <property name="text">
+     <string>Create DB</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pb_testDB">
+    <property name="text">
+     <string>Test</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pb_fillSmol">
+    <property name="text">
+     <string>Fill smol</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pb_fillAll">
+    <property name="text">
+     <string>Fill all</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
