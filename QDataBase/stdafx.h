@@ -15,3 +15,7 @@
 #include <QDataWidgetMapper>
 #include <QSqlRelationalTableModel>
 #include <QSqlRelationalDelegate>
+#include <QDir>
+
+#include "qtcsv/writer.h"
+#include "qtcsv/stringdata.h"

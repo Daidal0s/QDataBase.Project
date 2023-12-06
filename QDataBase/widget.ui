@@ -19,7 +19,7 @@
   <property name="windowTitle">
    <string>Widget</string>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -63,6 +63,11 @@
       <widget class="QPushButton" name="pb_submitChanges">
        <property name="text">
         <string>Submit</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pb_saveTable">
+       <property name="text">
+        <string>Save to Table</string>
        </property>
       </widget>
      </widget>

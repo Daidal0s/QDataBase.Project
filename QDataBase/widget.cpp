@@ -31,6 +31,7 @@ Widget::Widget(QWidget *parent)
         m_employees->setEditStrategy(QSqlTableModel::OnRowChange);
         m_employees->setTable("employees");
         m_employees->setJoinMode(QSqlRelationalTableModel::InnerJoin);
+        m_employees->setRelation(5, QSqlRelation("employee_positions", "id", "PositionName"));
         m_employees->setRelation(8, QSqlRelation("employee_status", "id", "EmployeeStatus"));
         m_employees->select();
         qDebug() << m_employees->lastError();                           // TODO: DELETE THIS LINE
@@ -138,6 +139,56 @@ void Widget::on_pb_submitChanges_clicked()
         break;
     case 2:
         m_custasks->submitAll();
+        break;
+    }
+}
+
+void Widget::on_pb_saveTable_clicked()
+{
+    QString csv_filepath = QDir::currentPath() + "/export.csv";
+
+    QtCSV::StringData data;
+    auto wtf = DB::qtQuery();
+    QList<QList<QString>> wtf3;
+
+    auto fillData = [](QSqlQuery &wtf, QList<QList<QString>> &wtf3, QtCSV::StringData &data)
+    {
+        QList<QString> wtf2;
+
+        while (wtf.next())
+        {
+            for (int iii = 1;iii <= 8;++iii)
+            {
+                wtf2.push_back(wtf.value(iii).toString());
+            }
+            wtf3.push_back(wtf2);
+            wtf2.clear();
+        }
+
+        for(int iii = 0; iii < wtf3.size(); ++iii)
+        {
+            data.addRow(wtf3.at(iii));
+        }
+    };
+
+    switch (ui->cb_model->currentIndex())
+    {
+    default:
+        break;
+    case 0:
+        wtf.exec((m_employees->query().executedQuery()));
+        fillData(wtf, wtf3, data);
+        QtCSV::Writer::write(csv_filepath, data);
+        break;
+    case 1:
+        wtf.exec((m_contasks->query().executedQuery()));
+        fillData(wtf, wtf3, data);
+        QtCSV::Writer::write(csv_filepath, data);
+        break;
+    case 2:
+        wtf.exec((m_custasks->query().executedQuery()));
+        fillData(wtf, wtf3, data);
+        QtCSV::Writer::write(csv_filepath, data);
         break;
     }
 }

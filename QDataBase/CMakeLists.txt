@@ -70,6 +70,7 @@ endif()
 target_precompile_headers(QDataBase PRIVATE stdafx.h)
 target_link_libraries(QDataBase PRIVATE Qt${QT_VERSION_MAJOR}::Widgets
                                 PRIVATE Qt${QT_VERSION_MAJOR}::Sql
+                                PRIVATE qtcsv
                                 PRIVATE QDBLibrary
 )
 

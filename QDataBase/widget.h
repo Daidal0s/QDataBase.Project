@@ -31,6 +31,8 @@ private slots:
 
     void on_pb_submitChanges_clicked();
 
+    void on_pb_saveTable_clicked();
+
 private:
     Ui::Widget *ui;
 };
