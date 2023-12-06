@@ -28,7 +28,7 @@ Widget::Widget(QWidget *parent)
 
     if (Orm::Schema::hasTable("employees"))
     {
-        m_employees = new QSqlRelationalTableModel();
+        m_employees = std::make_unique<QSqlRelationalTableModel>();
         m_employees->setEditStrategy(QSqlTableModel::OnRowChange);
         m_employees->setTable("employees");
         m_employees->setJoinMode(QSqlRelationalTableModel::InnerJoin);
@@ -40,7 +40,7 @@ Widget::Widget(QWidget *parent)
 
     if (Orm::Schema::hasTable("consumers_tasks"))
     {
-        m_contasks = new QSqlRelationalTableModel();
+        m_contasks = std::make_unique<QSqlRelationalTableModel>();
         m_contasks->setEditStrategy(QSqlTableModel::OnManualSubmit);
         m_contasks->setTable("consumers_tasks");
         m_contasks->setRelation(2, QSqlRelation("task_type_consumer", "id", "TaskType"));
@@ -50,7 +50,7 @@ Widget::Widget(QWidget *parent)
 
     if (Orm::Schema::hasTable("customers_tasks"))
     {
-        m_custasks = new QSqlRelationalTableModel();
+        m_custasks = std::make_unique<QSqlRelationalTableModel>();
         m_custasks->setEditStrategy(QSqlTableModel::OnManualSubmit);
         m_custasks->setTable("customers_tasks");
         m_custasks->select();
@@ -59,15 +59,14 @@ Widget::Widget(QWidget *parent)
 #ifdef DEV_BUILD
     // qDebug() << Project::all().size() << " " << Project::first()->toVector().toList().size();       // TODO: DELETE THIS LINE
 
-    dev = new Dev();
-    // dev->show();
+    dev = std::make_shared<Dev>();
 
     this->hide();
 
     if (qdb.open() && Orm::Schema::hasTable("customers_tasks"))
     {
         this->show();
-        ui->tv_sql->setModel(m_employees);
+        ui->tv_sql->setModel(m_employees.get());
         ui->tv_sql->setSelectionBehavior(QAbstractItemView::SelectRows);
         ui->tv_sql->setSelectionMode(QAbstractItemView::SingleSelection);
         ui->tv_sql->resizeColumnsToContents();
@@ -92,7 +91,7 @@ void Widget::on_cb_model_currentIndexChanged(int index)
     case 0:
         if (qdb.tables().contains(tr("employees")))
         {
-            ui->tv_sql->setModel(m_employees);
+            ui->tv_sql->setModel(m_employees.get());
             ui->tv_sql->setSelectionBehavior(QAbstractItemView::SelectRows);
             ui->tv_sql->setSelectionMode(QAbstractItemView::SingleSelection);
             ui->tv_sql->resizeColumnsToContents();
@@ -101,7 +100,7 @@ void Widget::on_cb_model_currentIndexChanged(int index)
     case 1:
         if (qdb.tables().contains(tr("consumers_tasks")))
         {
-            ui->tv_sql->setModel(m_contasks);
+            ui->tv_sql->setModel(m_contasks.get());
             ui->tv_sql->hideColumn(0);
             ui->tv_sql->hideColumn(6);
             ui->tv_sql->hideColumn(7);
@@ -114,7 +113,7 @@ void Widget::on_cb_model_currentIndexChanged(int index)
     case 2:
         if (qdb.tables().contains(tr("customers_tasks")))
         {
-            ui->tv_sql->setModel(m_custasks);
+            ui->tv_sql->setModel(m_custasks.get());
             ui->tv_sql->setSelectionBehavior(QAbstractItemView::SelectRows);
             ui->tv_sql->setSelectionMode(QAbstractItemView::SingleSelection);
             ui->tv_sql->resizeColumnsToContents();

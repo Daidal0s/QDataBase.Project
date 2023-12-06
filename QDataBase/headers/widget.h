@@ -18,18 +18,17 @@ public:
     ~Widget();
 
     QSqlDatabase qdb;
-    Dev* dev;
+    std::shared_ptr<Dev> dev;
 
-    QSqlRelationalTableModel* m_employees;
-    QSqlRelationalTableModel* m_custasks;
-    QSqlRelationalTableModel* m_contasks;
+    std::unique_ptr<QSqlRelationalTableModel> m_employees;
+    std::unique_ptr<QSqlRelationalTableModel> m_custasks;
+    std::unique_ptr<QSqlRelationalTableModel> m_contasks;
 private slots:
     void on_cb_model_currentIndexChanged(int index);
 
     void on_pb_submitChanges_clicked();
 
     void on_pb_saveTable_clicked();
-
 private:
     Ui::Widget *ui;
 };
