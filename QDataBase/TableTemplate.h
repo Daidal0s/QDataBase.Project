@@ -3,7 +3,7 @@
 #include <QComboBox>
 #include <QAbstractTableModel>
 
-const int ROWS = Project::all().size();
+const int ROWS = /*Project::all().size()*/ 0;
 
 
 class QEmployee : public QAbstractTableModel

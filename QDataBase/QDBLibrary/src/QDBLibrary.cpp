@@ -120,7 +120,8 @@ void createDB()
     if (!Schema::hasTable("employees"))
     {
         Schema::create("employees", [](Orm::SchemaNs::Blueprint &table)
-                       {
+        {
+            table.increments("id");
             table.string("AuthData");
             table.string("FIO");
             table.string("PassportData");
@@ -129,10 +130,11 @@ void createDB()
             table.string("ContactDataNum").nullable();
             table.string("ContactDataEMail").nullable();
             table.unsignedInteger("StatusID").nullable();
-            
+
             table.foreign("AuthData").references("Login").on("user_data").cascadeOnDelete().cascadeOnUpdate();
             table.foreign("PositionID").references("id").on("employee_positions").nullOnDelete().cascadeOnUpdate();
-            table.foreign("StatusID").references("id").on("employee_status").nullOnDelete().cascadeOnUpdate(); });
+            table.foreign("StatusID").references("id").on("employee_status").nullOnDelete().cascadeOnUpdate(); 
+        });
 
         ++countOfCreatedTables;
     }

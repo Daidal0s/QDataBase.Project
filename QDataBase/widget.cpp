@@ -16,7 +16,7 @@ Widget::Widget(QWidget *parent)
     else
         setWindowTitle("OK!");
 
-    auto qdb = QSqlDatabase::addDatabase("QMYSQL");
+    qdb = QSqlDatabase::addDatabase("QMYSQL");
     qdb.setHostName("127.0.0.1");
     qdb.setPort(3306);
     qdb.setUserName("qdb");
@@ -25,35 +25,51 @@ Widget::Widget(QWidget *parent)
 
     qdb.open();
 
-    m_employees = new QSqlRelationalTableModel();
-    m_employees->setEditStrategy(QSqlTableModel::OnManualSubmit);
-    m_employees->setTable("employees");
-    m_employees->setRelation(0, QSqlRelation("user_data", "Login", "Login"));
-    m_employees->setRelation(7, QSqlRelation("employee_status", "id", "EmployeeStatus"));
-    m_employees->select();
+    if (Orm::Schema::hasTable("employees"))
+    {
+        m_employees = new QSqlRelationalTableModel();
+        m_employees->setEditStrategy(QSqlTableModel::OnRowChange);
+        m_employees->setTable("employees");
+        m_employees->setJoinMode(QSqlRelationalTableModel::InnerJoin);
+        m_employees->setRelation(8, QSqlRelation("employee_status", "id", "EmployeeStatus"));
+        m_employees->select();
+        qDebug() << m_employees->lastError();                           // TODO: DELETE THIS LINE
+    }
 
-    m_contasks = new QSqlRelationalTableModel();
-    m_contasks->setEditStrategy(QSqlTableModel::OnManualSubmit);
-    m_contasks->setTable("consumers_tasks");
-    m_contasks->select();
+    if (Orm::Schema::hasTable("consumers_tasks"))
+    {
+        m_contasks = new QSqlRelationalTableModel();
+        m_contasks->setEditStrategy(QSqlTableModel::OnManualSubmit);
+        m_contasks->setTable("consumers_tasks");
+        m_contasks->setRelation(2, QSqlRelation("task_type_consumer", "id", "TaskType"));
+        m_contasks->setRelation(5, QSqlRelation("task_status_consumer", "id", "TaskStatus"));
+        m_contasks->select();
+    }
 
-    m_custasks = new QSqlRelationalTableModel();
-    m_custasks->setEditStrategy(QSqlTableModel::OnManualSubmit);
-    m_custasks->setTable("customers_tasks");
-    m_custasks->select();
+    if (Orm::Schema::hasTable("customers_tasks"))
+    {
+        m_custasks = new QSqlRelationalTableModel();
+        m_custasks->setEditStrategy(QSqlTableModel::OnManualSubmit);
+        m_custasks->setTable("customers_tasks");
+        m_custasks->select();
+    }
     
 #ifdef DEV_BUILD
-    qDebug() << Project::all().size() << " " << Project::first()->toVector().toList().size();
+    // qDebug() << Project::all().size() << " " << Project::first()->toVector().toList().size();       // TODO: DELETE THIS LINE
 
-    if (qdb.isOpen())
+    dev = new Dev();
+    dev->show();
+
+    this->hide();
+
+    if (qdb.open() && Orm::Schema::hasTable("customers_tasks"))
     {
-        // tablem->setQuery(empp);
-
+        this->show();
         ui->tv_sql->setModel(m_employees);
         ui->tv_sql->setSelectionBehavior(QAbstractItemView::SelectRows);
         ui->tv_sql->setSelectionMode(QAbstractItemView::SingleSelection);
         ui->tv_sql->resizeColumnsToContents();
-        ui->tv_sql->setItemDelegateForColumn(7, new QSqlRelationalDelegate(m_employees));
+        ui->tv_sql->setItemDelegate(new QSqlRelationalDelegate(ui->tv_sql));
         ui->tv_sql->hideColumn(0);
     }
 #endif
@@ -72,22 +88,35 @@ void Widget::on_cb_model_currentIndexChanged(int index)
     default:
         break;
     case 0:
-        ui->tv_sql->setModel(m_employees);
-        ui->tv_sql->setSelectionBehavior(QAbstractItemView::SelectRows);
-        ui->tv_sql->setSelectionMode(QAbstractItemView::SingleSelection);
-        ui->tv_sql->resizeColumnsToContents();
+        if (qdb.tables().contains(tr("employees")))
+        {
+            ui->tv_sql->setModel(m_employees);
+            ui->tv_sql->setSelectionBehavior(QAbstractItemView::SelectRows);
+            ui->tv_sql->setSelectionMode(QAbstractItemView::SingleSelection);
+            ui->tv_sql->resizeColumnsToContents();
+        }
         break;
     case 1:
-        ui->tv_sql->setModel(m_contasks);
-        ui->tv_sql->setSelectionBehavior(QAbstractItemView::SelectRows);
-        ui->tv_sql->setSelectionMode(QAbstractItemView::SingleSelection);
-        ui->tv_sql->resizeColumnsToContents();
+        if (qdb.tables().contains(tr("consumers_tasks")))
+        {
+            ui->tv_sql->setModel(m_contasks);
+            ui->tv_sql->hideColumn(0);
+            ui->tv_sql->hideColumn(6);
+            ui->tv_sql->hideColumn(7);
+            ui->tv_sql->setItemDelegate(new QSqlRelationalDelegate(ui->tv_sql));
+            ui->tv_sql->setSelectionBehavior(QAbstractItemView::SelectRows);
+            ui->tv_sql->setSelectionMode(QAbstractItemView::SingleSelection);
+            ui->tv_sql->resizeColumnsToContents();
+        }
         break;
     case 2:
-        ui->tv_sql->setModel(m_custasks);
-        ui->tv_sql->setSelectionBehavior(QAbstractItemView::SelectRows);
-        ui->tv_sql->setSelectionMode(QAbstractItemView::SingleSelection);
-        ui->tv_sql->resizeColumnsToContents();
+        if (qdb.tables().contains(tr("customers_tasks")))
+        {
+            ui->tv_sql->setModel(m_custasks);
+            ui->tv_sql->setSelectionBehavior(QAbstractItemView::SelectRows);
+            ui->tv_sql->setSelectionMode(QAbstractItemView::SingleSelection);
+            ui->tv_sql->resizeColumnsToContents();
+        }
         break;
     }
 }
@@ -95,21 +124,20 @@ void Widget::on_cb_model_currentIndexChanged(int index)
 
 void Widget::on_pb_submitChanges_clicked()
 {
-    ui->tv_sql->model()->submit();
-
     switch (ui->cb_model->currentIndex())
     {
     default:
         break;
     case 0:
-        m_employees->submitAll();
+        qDebug() << m_employees->submitAll();
+        qDebug() << m_employees->lastError();
         break;
     case 1:
-        m_contasks->submitAll();
+        qDebug() << m_contasks->submitAll();
+        qDebug() << m_contasks->lastError();
         break;
     case 2:
         m_custasks->submitAll();
         break;
     }
 }
-

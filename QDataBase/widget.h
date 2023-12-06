@@ -4,6 +4,7 @@
 #pragma once
 #include "stdafx.h"
 #include "TableTemplate.h"
+#include "dev.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -17,8 +18,10 @@ public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
 
+    QSqlDatabase qdb;
+    Dev* dev;
 
-    QEmployee *testTable = new QEmployee(this);
+    // QEmployee *testTable = new QEmployee(this);                  // TODO: DELETE THIS LINE
 
     QSqlRelationalTableModel* m_employees;
     QSqlRelationalTableModel* m_custasks;

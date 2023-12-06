@@ -35,8 +35,9 @@ public:
 private:
     QString u_connection {"mysql"};
     QString u_table {"employees"};
-    QString u_primaryKey {"AuthData"};
+    QString u_primaryKey {"id"};
 
+    bool u_incrementing = true;
     bool u_timestamps = false;
 
     inline static QStringList u_fillable {
