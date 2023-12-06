@@ -3,7 +3,6 @@
 
 #pragma once
 #include "stdafx.h"
-#include "TableTemplate.h"
 #include "dev.h"
 
 QT_BEGIN_NAMESPACE
@@ -20,8 +19,6 @@ public:
 
     QSqlDatabase qdb;
     Dev* dev;
-
-    // QEmployee *testTable = new QEmployee(this);                  // TODO: DELETE THIS LINE
 
     QSqlRelationalTableModel* m_employees;
     QSqlRelationalTableModel* m_custasks;

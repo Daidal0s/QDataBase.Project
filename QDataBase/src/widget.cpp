@@ -1,5 +1,6 @@
 #include "widget.h"
 #include "ui_widget.h"
+#include "ui_dev.h"
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent), ui(new Ui::Widget)
@@ -59,7 +60,7 @@ Widget::Widget(QWidget *parent)
     // qDebug() << Project::all().size() << " " << Project::first()->toVector().toList().size();       // TODO: DELETE THIS LINE
 
     dev = new Dev();
-    dev->show();
+    // dev->show();
 
     this->hide();
 
@@ -130,7 +131,7 @@ void Widget::on_pb_submitChanges_clicked()
     default:
         break;
     case 0:
-        qDebug() << m_employees->submitAll();
+        qDebug() << m_employees->submitAll();                       // TODO: DELETE DUBUG
         qDebug() << m_employees->lastError();
         break;
     case 1:
@@ -138,6 +139,7 @@ void Widget::on_pb_submitChanges_clicked()
         qDebug() << m_contasks->lastError();
         break;
     case 2:
+        ui->horizontalLayout->addWidget(new Dev());
         m_custasks->submitAll();
         break;
     }

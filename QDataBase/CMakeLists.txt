@@ -2,27 +2,25 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools Sql)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools Sql)
-
 option(DEV_BUILD "adds some dev shit" ON)
 
-set(SOURCE_FILES_DIR ${CMAKE_SOURCE_DIR}/QDataBase)
+set(SOURCE_FILES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(SOURCE_FILES    
         ${SOURCE_FILES_DIR}/main.cpp
         ${SOURCE_FILES_DIR}/widget.cpp
-        ${SOURCE_FILES_DIR}/QEmployee.cpp
+        ${SOURCE_FILES_DIR}/dev.cpp
 )
 
-set(HEADER_FILES_DIR ${CMAKE_SOURCE_DIR}/QDataBase)
+set(HEADER_FILES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/headers)
 set(HEADER_FILES    
         ${HEADER_FILES_DIR}/widget.h
-        ${HEADER_FILES_DIR}/TableTemplate.h
+        ${HEADER_FILES_DIR}/dev.h
 )
 
-set(UI_FILES_DIR ${CMAKE_SOURCE_DIR}/QDataBase)
+set(UI_FILES_DIR ${SOURCE_FILES_DIR})
 set(UI_FILES    
         ${UI_FILES_DIR}/widget.ui
+        ${UI_FILES_DIR}/dev.ui
 )
 
 set(TS_FILES QDataBase_ru_RU.ts)
@@ -32,24 +30,20 @@ set(PROJECT_SOURCES
         ${HEADER_FILES}
         ${UI_FILES}
         ${TS_FILES}
-        res.qrc
 )
+
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(QDataBase
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        dev.h dev.cpp dev.ui
-
-
+        res.qrc
     )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET QDataBase APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
+
     if(DEV_BUILD)
         target_compile_definitions(QDataBase PRIVATE DEV_BUILD)
     endif()
+
     qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 else()
     if(ANDROID)
@@ -67,7 +61,8 @@ else()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
-target_precompile_headers(QDataBase PRIVATE stdafx.h)
+target_include_directories(QDataBase PRIVATE ${HEADER_FILES_DIR})
+target_precompile_headers(QDataBase PRIVATE ${HEADER_FILES_DIR}/stdafx.h)
 target_link_libraries(QDataBase PRIVATE Qt${QT_VERSION_MAJOR}::Widgets
                                 PRIVATE Qt${QT_VERSION_MAJOR}::Sql
                                 PRIVATE qtcsv

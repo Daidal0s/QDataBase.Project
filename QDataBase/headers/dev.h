@@ -24,7 +24,6 @@ private slots:
     void on_pb_fillSmol_clicked();
 
     void on_pb_fillAll_clicked();
-
 private:
     Ui::Dev *ui;
 };
