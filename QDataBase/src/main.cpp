@@ -1,4 +1,4 @@
-#include "widget.h"
+#include "loginwindow.h"
 
 #include <QApplication>
 #include <QLocale>
@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
             break;
         }
     }
-    Widget w;
+    LoginWindow w;
     w.show();
     return a.exec();
 }

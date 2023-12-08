@@ -7,20 +7,26 @@ option(DEV_BUILD "adds some dev shit" ON)
 set(SOURCE_FILES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(SOURCE_FILES    
         ${SOURCE_FILES_DIR}/main.cpp
-        ${SOURCE_FILES_DIR}/widget.cpp
+        ${SOURCE_FILES_DIR}/loginwindow.cpp
+        ${SOURCE_FILES_DIR}/mainwindow.cpp
         ${SOURCE_FILES_DIR}/dev.cpp
+        ${SOURCE_FILES_DIR}/dbconnection.cpp
 )
 
 set(HEADER_FILES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/headers)
 set(HEADER_FILES    
-        ${HEADER_FILES_DIR}/widget.h
+        ${HEADER_FILES_DIR}/loginwindow.h
+        ${HEADER_FILES_DIR}/mainwindow.h
         ${HEADER_FILES_DIR}/dev.h
+        ${HEADER_FILES_DIR}/dbconnection.h
+        ${HEADER_FILES_DIR}/login.h
 )
 
 set(UI_FILES_DIR ${SOURCE_FILES_DIR})
 set(UI_FILES    
-        ${UI_FILES_DIR}/widget.ui
+        ${UI_FILES_DIR}/mainwindow.ui
         ${UI_FILES_DIR}/dev.ui
+        ${UI_FILES_DIR}/loginwindow.ui
 )
 
 set(TS_FILES QDataBase_ru_RU.ts)

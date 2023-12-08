@@ -1,21 +1,32 @@
 #pragma once
 
-#include "QDBLibrary.h"
+#include <QDialog>
 #include <QWidget>
+#include <QDebug>
+
+#include <QVector>
+
 #include <QSqlDatabase>
 #include <QSqlError>
-#include <QDebug>
+#include <QSqlDatabase>
+#include <QSqlRelation>
+
+#include <QSqlTableModel>
+#include <QSqlRelationalDelegate>
+#include <QSqlRelationalTableModel>
+
 #include <QPushButton>
 #include <QTableView>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
-#include <QSqlDatabase>
-#include <QSqlRelation>
-#include <QSqlTableModel>
-#include <QDataWidgetMapper>
-#include <QSqlRelationalTableModel>
-#include <QSqlRelationalDelegate>
+
 #include <QDir>
 
-#include "qtcsv/writer.h"
+#include <QPointer>
+#include <QSharedPointer>
+#include <QSharedDataPointer>
+
+#include "QDBLibrary.h"
+
 #include "qtcsv/stringdata.h"
+#include "qtcsv/writer.h"
