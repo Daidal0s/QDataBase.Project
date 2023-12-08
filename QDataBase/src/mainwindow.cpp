@@ -29,9 +29,9 @@ void fillRelationalTable(QVector<QSharedPointer<QSqlRelationalTableModel>> &tabl
     {
         tableWithModels.push_back(QSharedPointer<QSqlRelationalTableModel>(new QSqlRelationalTableModel()));
         setupModel(tableWithModels.last(), c);
-        qDebug() << tableWithModels.last()->select();
-        qDebug() << tableWithModels.last()->query().executedQuery();
-        qDebug() << tableWithModels.last()->lastError();
+        tableWithModels.last()->select();
+        tableWithModels.last()->query().executedQuery();
+        tableWithModels.last()->lastError();
 
         qDebug() << tableWithModels.last()->tableName() << " FILLED!";
     }
@@ -70,7 +70,6 @@ MainWindow::MainWindow(QWidget *parent)
         ui->tv_sql->setSelectionBehavior(QAbstractItemView::SelectRows);
         ui->tv_sql->setSelectionMode(QAbstractItemView::SingleSelection);
         ui->tv_sql->setItemDelegate(new QSqlRelationalDelegate(ui->tv_sql));
-        // on_cb_model_currentIndexChanged(0);
     }
 
 }
