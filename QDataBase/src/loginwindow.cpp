@@ -16,6 +16,7 @@ LoginWindow::LoginWindow(QWidget *parent)
 
 LoginWindow::~LoginWindow()
 {
+    delete mainWindow;
     delete ui;
 }
 
@@ -23,9 +24,16 @@ void LoginWindow::on_pb_login_clicked()
 {
     ui->lb_info->clear();
 
-    _login = ui->le_login->text();
-
     auto userData = UserData::select();
+
+    _login = ui->le_login->text();
+    QString password = ui->le_password->text();
+
+#ifdef DEV_BUILD
+    _login = "admin";
+    password = "admin";
+    _userRole = Login::ROLE::ADMIN;
+#endif
     
     if (userData->whereKey(_login).doesntExist())
     {
@@ -33,31 +41,15 @@ void LoginWindow::on_pb_login_clicked()
         return;
     }
 
-    QString password = ui->le_password->text();
-
     if (userData->whereKey(_login).whereEq("Password",password).doesntExist())
     {
         ui->lb_info->setText("Wrong data! Try again");
         return;
     }
 
-    switch (userData->whereKey(_login).pluck("RoleID").at(0).toInt())
-    {
-    case 1:
-        _userRole = Login::ROLE::ADMIN;
-        break;
-    case 2:
-        _userRole = Login::ROLE::DEV;
-        break;
-    case 3:
-        _userRole = Login::ROLE::TEAMLEADER;
-        break;
-    default:
-        break;
-    }
+    _userRole = Login::setLogin(userData->whereKey(_login).pluck("RoleID").at(0).toInt());
 
-    mainWindow = new MainWindow();
-
+    mainWindow = new MainWindow(_userRole);
     this->hide();
     mainWindow->show();
 }

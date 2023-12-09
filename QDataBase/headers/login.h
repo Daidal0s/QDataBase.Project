@@ -11,8 +11,9 @@ namespace Login
         DEV,
         TEAMLEADER
     };
+
+    Login::ROLE setLogin(int indexFromDB);
 }
 
-inline Login::ROLE setLogin();
 
 #endif // LOGIN_H

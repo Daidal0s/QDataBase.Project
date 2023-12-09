@@ -1,57 +1,120 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>MainWindow</class>
- <widget class="QWidget" name="MainWindow">
+ <widget class="QMainWindow" name="MainWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1081</width>
-    <height>731</height>
+    <width>937</width>
+    <height>566</height>
    </rect>
   </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
   <property name="windowTitle">
-   <string>Widget</string>
+   <string>MainWindow</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_2">
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QTableView" name="tv_sql"/>
-     </item>
-     <item>
-      <widget class="QSplitter" name="splitter">
-       <property name="minimumSize">
-        <size>
-         <width>80</width>
-         <height>0</height>
-        </size>
+  <widget class="QWidget" name="PASTESHITBELOW">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QSplitter" name="splitter">
+      <property name="minimumSize">
+       <size>
+        <width>80</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <widget class="QComboBox" name="cb_model"/>
+      <widget class="QPushButton" name="pb_submitChanges">
+       <property name="text">
+        <string>Submit</string>
        </property>
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <widget class="QComboBox" name="cb_model"/>
-       <widget class="QPushButton" name="pb_submitChanges">
-        <property name="text">
-         <string>Submit</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pb_saveTable">
-        <property name="text">
-         <string>Save to Table</string>
-        </property>
-       </widget>
       </widget>
-     </item>
-    </layout>
-   </item>
-  </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QTableView" name="tv_sql"/>
+    </item>
+    <item>
+     <layout class="QGridLayout" name="gl_createRecord">
+      <item row="1" column="0" alignment="Qt::AlignTop">
+       <widget class="QLabel" name="lb_createRecord">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Create new record</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QSplitter" name="splitter_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <widget class="QPushButton" name="pb_createRecord">
+         <property name="text">
+          <string>Create</string>
+         </property>
+        </widget>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <layout class="QVBoxLayout" name="vl_fillableFields"/>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>937</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="defaultUp">
+    <bool>false</bool>
+   </property>
+   <widget class="QMenu" name="menu_Export">
+    <property name="title">
+     <string>&amp;Export</string>
+    </property>
+    <addaction name="actionTo_csv"/>
+   </widget>
+   <widget class="QMenu" name="menuVisualize">
+    <property name="title">
+     <string>&amp;Visualize</string>
+    </property>
+    <addaction name="actionData_in_diagrams"/>
+   </widget>
+   <addaction name="menu_Export"/>
+   <addaction name="menuVisualize"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionTo_csv">
+   <property name="text">
+    <string>This table to .csv</string>
+   </property>
+  </action>
+  <action name="actionData_in_diagrams">
+   <property name="text">
+    <string>Data in diagrams</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

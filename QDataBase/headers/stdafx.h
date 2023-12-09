@@ -2,6 +2,7 @@
 
 #include <QDialog>
 #include <QWidget>
+#include <QMainWindow>
 #include <QDebug>
 
 #include <QVector>
@@ -15,6 +16,7 @@
 #include <QSqlRelationalDelegate>
 #include <QSqlRelationalTableModel>
 
+#include <QTextEdit>
 #include <QPushButton>
 #include <QTableView>
 #include <QHBoxLayout>

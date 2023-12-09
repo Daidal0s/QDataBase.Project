@@ -11,6 +11,7 @@ set(SOURCE_FILES
         ${SOURCE_FILES_DIR}/mainwindow.cpp
         ${SOURCE_FILES_DIR}/dev.cpp
         ${SOURCE_FILES_DIR}/dbconnection.cpp
+        ${SOURCE_FILES_DIR}/login.cpp
 )
 
 set(HEADER_FILES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/headers)
