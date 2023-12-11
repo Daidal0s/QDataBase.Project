@@ -6,9 +6,6 @@
 #include "dbconnection.h"
 #include "login.h"
 
-#ifdef DEV_BUILD
-#include "dev.h"
-#endif
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -23,6 +20,7 @@ private:
     QList<QString> _namesOfFillableFields;
     QVector<QSharedPointer<QTextEdit>> _fillableFields; 
     QList<QString> _tableNames;
+    // QMap<QString, > asd; 
     QVector<QSharedPointer<QSqlRelationalTableModel>> _modelVector;
 private:
     void clearHidden(const QSqlRelationalTableModel *model);
@@ -36,9 +34,5 @@ private slots:
 public:
     MainWindow(Login::ROLE userRole = Login::ROLE::DEV, QMainWindow *parent = nullptr);
     ~MainWindow();
-public:
-#ifdef DEV_BUILD
-    QSharedPointer<Dev> w_dev;
-#endif
 };
 #endif // MAINWINDOW_H

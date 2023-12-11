@@ -3,8 +3,9 @@
 
 using Orm::Tiny::Model;
 
-class EmployeePosition final : public Model<EmployeePosition>
+class EmployeePosition final : public Model<EmployeePosition>, public Fillable<EmployeePosition>
 {
+    friend Fillable;
     friend Model;
     using Model::Model;
 private:
@@ -17,9 +18,10 @@ private:
 
     inline static const QVector<AttributeItem> u_attributes
     {
-        {"PositionName", "NewPosition"},
-        {"Description", "Position Description"},
+        {"PositionName", "NEED2FILL"},
+        {"Description", "NEED2FILL"},
     };
+
     inline static QStringList u_fillable {
         "PositionName",
         "Description",

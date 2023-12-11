@@ -2,8 +2,9 @@
 #include "stdafx.h"
 using Orm::Tiny::Model;
 
-class EmployeeStatus final : public Model<EmployeeStatus>
+class EmployeeStatus final : public Model<EmployeeStatus>, public Fillable<EmployeeStatus>
 {
+    friend Fillable;
     friend Model;
     using Model::Model;
 private:
@@ -16,8 +17,8 @@ private:
 
     inline static const QVector<AttributeItem> u_attributes
     {
-        {"EmployeeStatus", "NewStatus"},
-        {"Description", "New description"},
+        {"EmployeeStatus", "NEED2FILL"},
+        {"Description", "NEED2FILL"},
     };
     inline static QStringList u_fillable {
         "EmployeeStatus",

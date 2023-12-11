@@ -19,7 +19,11 @@ void getTablesNames(QStringList &list)
 
     while(tableNamesDB.next())
     {
+#ifdef DEV_BUILD
+        list.push_back(tableNamesDB.value("Tables_in_Test").toString());
+#else
         list.push_back(tableNamesDB.value("Tables_in_QDB").toString());
+#endif
     }
 }
 
@@ -68,17 +72,16 @@ MainWindow::MainWindow(Login::ROLE userRole, QMainWindow *parent)
     fillRelationalTable(_modelVector, _tableNames);
     ui->cb_model->addItems(_tableNames);
     
-#ifdef DEV_BUILD
-    w_dev = QSharedPointer<Dev>(new Dev(this));
-    w_dev->show();
-#endif
     this->hide();
+
+    for (auto c : Role::getFillableList())
+    {
+        qDebug() << c;
+    }
 
     if (dbConnection.getDB().isOpen())
     {
-#ifdef DEV_BUILD
         this->show();
-#endif
         ui->tv_sql->setSelectionBehavior(QAbstractItemView::SelectRows);
         ui->tv_sql->setSelectionMode(QAbstractItemView::SingleSelection);
         ui->tv_sql->setItemDelegate(new QSqlRelationalDelegate(ui->tv_sql));

@@ -3,8 +3,9 @@
 
 using Orm::Tiny::Model;
 
-class LegalForm final : public Model<LegalForm>
+class LegalForm final : public Model<LegalForm>, public Fillable<LegalForm>
 {
+    friend Fillable;
     friend Model;
     using Model::Model;
 private:
@@ -17,8 +18,9 @@ private:
 
     inline static const QVector<AttributeItem> u_attributes
     {
-        {"LegalFormName", "New Form"},
+        {"LegalFormName", "NEED2FILL"},
     };
+    
     inline static QStringList u_fillable {
         "LegalFormName",
     };

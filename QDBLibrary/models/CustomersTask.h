@@ -12,8 +12,9 @@ class TaskTypeCustomer;
 class TaskStatusCustomer;
 class Project;
 
-class CustomersTask final : public Model<CustomersTask,LegalForm,TaskTypeCustomer,TaskStatusCustomer,Project>
+class CustomersTask final : public Model<CustomersTask,LegalForm,TaskTypeCustomer,TaskStatusCustomer,Project>, public Fillable<CustomersTask>
 {
+    friend Fillable;
     friend Model;
     using Model::Model;
 public:
@@ -50,8 +51,18 @@ private:
 
     inline static const QVector<AttributeItem> u_attributes
     {
+        {"INN", QVariant(QRandomGenerator::global()->generate() % 1000).toString()},
+        {"LegalFormID",""},
+        {"Name","NEED2FILL"},
+        {"Adress",""},
+        {"TaskTypeID",""},
+        {"Profitability",""},
+        {"ContactDataNum",""},
+        {"StatusID",""},
+        {"RelatedProject",""},
         {"added_on", QDateTime::currentDateTime()},
     };
+
     inline static QStringList u_fillable {
         "INN",
         "LegalFormID",

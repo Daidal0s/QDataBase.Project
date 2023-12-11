@@ -1,10 +1,12 @@
 #pragma once
 #include "stdafx.h"
+#include "fillable.h"
 
 using Orm::Tiny::Model;
 
-class Role final : public Model<Role>
+class Role final : public Model<Role>, public Fillable<Role>
 {
+    friend Fillable;
     friend Model;
     using Model::Model;
 private:
@@ -17,8 +19,10 @@ private:
 
     inline static const QVector<AttributeItem> u_attributes
     {
-        {"RoleName", "NewRole"},
+        {"RoleName", "NEED2FILL"},
+        {"Description","NEED2FILL"},
     };
+
     inline static QStringList u_fillable {
         "RoleName",
         "Description",

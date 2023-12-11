@@ -12,11 +12,15 @@ LoginWindow::LoginWindow(QWidget *parent)
         this->setWindowTitle("SHIT!");
     else
         this->setWindowTitle("OK!");
+
+#ifdef DEV_BUILD
+    w_dev = QSharedPointer<Dev>(new Dev(this));
+    w_dev->show();
+#endif
 }
 
 LoginWindow::~LoginWindow()
 {
-    delete mainWindow;
     delete ui;
 }
 
@@ -49,7 +53,7 @@ void LoginWindow::on_pb_login_clicked()
 
     _userRole = Login::setLogin(userData->whereKey(_login).pluck("RoleID").at(0).toInt());
 
-    mainWindow = new MainWindow(_userRole);
+    mainWindow = QSharedPointer<MainWindow>(new MainWindow(_userRole));
     this->hide();
     mainWindow->show();
 }

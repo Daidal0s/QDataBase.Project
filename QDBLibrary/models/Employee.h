@@ -10,8 +10,9 @@ class UserData;
 class EmployeePosition;
 class EmployeeStatus;
 
-class Employee final : public Model<Employee,UserData,EmployeePosition,EmployeeStatus>
+class Employee final : public Model<Employee,UserData,EmployeePosition,EmployeeStatus>, public Fillable<Employee>
 {
+    friend Fillable;
     friend Model;
     using Model::Model;
 public:
@@ -39,6 +40,18 @@ private:
 
     bool u_incrementing = true;
     bool u_timestamps = false;
+
+    inline static const QVector<AttributeItem> u_attributes
+    {
+        {"AuthData",""},
+        {"FIO","NEED2FILL"},
+        {"PassportData","NEED2FILL"},
+        {"BirthDay", QDateTime::currentDateTime()},
+        {"PositionID",""},
+        {"ContactDataNum","NEED2FILL"},
+        {"ContactDataEMail","NEED2FILL"},
+        {"StatusID",""},
+    };
 
     inline static QStringList u_fillable {
         "AuthData",

@@ -10,10 +10,13 @@ class UserData;
 class TaskTypeConsumer;
 class TaskStatusConsumer;
 
-class ConsumerTask final : public Model<ConsumerTask,UserData,TaskTypeConsumer,TaskStatusConsumer>
+class ConsumerTask final : public Model<ConsumerTask,UserData,TaskTypeConsumer,TaskStatusConsumer>, public Fillable<ConsumerTask>
 {
+    friend Fillable;
     friend Model;
     using Model::Model;
+public:
+
 public:
     std::unique_ptr<HasMany<ConsumerTask, TaskTypeConsumer>>
     taskType()
@@ -42,9 +45,16 @@ private:
 
     inline static const QVector<AttributeItem> u_attributes
     {
+        {"FIO","NEED2FILL"},
+        {"TaskTypeID",""},
+        {"ContactDataNum","NEED2FILL"},
+        {"RelatedEmployee",""},
+        {"StatusID",""},
         {"added_on", QDateTime::currentDateTime()},
     };
-    inline static QStringList u_fillable {
+
+    inline static QStringList u_fillable 
+    {
         "FIO",
         "TaskTypeID",
         "ContactDataNum",

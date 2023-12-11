@@ -8,8 +8,9 @@ using Orm::Tiny::Model;
 class UserData;
 class ProjectStatus;
 
-class Project final : public Model<Project,UserData,ProjectStatus>
+class Project final : public Model<Project,UserData,ProjectStatus>, public Fillable<Project>
 {
+    friend Fillable;
     friend Model;
     using Model::Model;
 public:
@@ -34,8 +35,14 @@ private:
 
     inline static const QVector<AttributeItem> u_attributes
     {
+        {"ProjectName","NEED2FILL"},
+        {"TeamLeader",""},
+        {"Description",""},
+        {"Documentation",""},
+        {"StatusID",""},
         {"added_on", QDateTime::currentDateTime()},
     };
+
     inline static QStringList u_fillable {
         "ProjectName",
         "TeamLeader",

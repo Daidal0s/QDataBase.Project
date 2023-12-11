@@ -3,8 +3,9 @@
 
 using Orm::Tiny::Model;
 
-class TaskTypeConsumer final : public Model<TaskTypeConsumer>
+class TaskTypeConsumer final : public Model<TaskTypeConsumer>, public Fillable<TaskTypeConsumer>
 {
+    friend Fillable;
     friend Model;
     using Model::Model;
 private:
@@ -17,9 +18,10 @@ private:
 
     inline static const QVector<AttributeItem> u_attributes
     {
-        {"TaskType", "NewType"},
-        {"Description", "New description"},
+        {"TaskType", "NEED2FILL"},
+        {"Description", "NEED2FILL"},
     };
+    
     inline static QStringList u_fillable {
         "TaskType",
         "Description",

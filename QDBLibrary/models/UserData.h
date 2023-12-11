@@ -4,8 +4,9 @@
 
 using Orm::Tiny::Model;
 
-class UserData final : public Model<UserData,Role>
+class UserData final : public Model<UserData,Role>, public Fillable<UserData>
 {
+    friend Fillable;
     friend Model;
     using Model::Model;
 public:
@@ -20,6 +21,13 @@ private:
     QString u_primaryKey {"Login"};
 
     bool u_timestamps = false;
+
+    inline static const QVector<AttributeItem> u_attributes
+    {
+        {"Login", QVariant(QRandomGenerator::global()->generate() % 1000).toString()},
+        {"Password","NEED2FILL"},
+        {"RoleID",""},
+    };
 
     inline static QStringList u_fillable {
         "Login",

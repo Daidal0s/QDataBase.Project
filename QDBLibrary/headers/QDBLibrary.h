@@ -9,7 +9,11 @@ inline std::shared_ptr<Orm::DatabaseManager> manager = DB::create({
     {"driver",          "QMYSQL"},
     {"host",            qEnvironmentVariable("DB_HOST", "127.0.0.1")},
     {"port",            qEnvironmentVariable("DB_PORT", "3306")},
+#ifdef DEV_BUILD
+    {"database",        qEnvironmentVariable("DB_DATABASE", "Test")},
+#else
     {"database",        qEnvironmentVariable("DB_DATABASE", "QDB")},
+#endif
     {"username",        qEnvironmentVariable("DB_USERNAME", "qdb")},
     {"password",        qEnvironmentVariable("DB_PASSWORD", "t3ngentoppagur3nlag4nn")},
     {"charset",         qEnvironmentVariable("DB_CHARSET", "utf8mb4")},

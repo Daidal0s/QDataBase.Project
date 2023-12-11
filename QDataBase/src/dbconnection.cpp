@@ -13,7 +13,11 @@ DBConnection::DBConnection()
     qdb.setPort(3306);
     qdb.setUserName("qdb");
     qdb.setPassword("t3ngentoppagur3nlag4nn");
+#ifdef DEV_BUILD
+    qdb.setDatabaseName("Test");
+#else
     qdb.setDatabaseName("QDB");
+#endif
 
     qdb.open();
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <QAbstractTableModel>
+#include <QRandomGenerator>
 #include <orm/db.hpp>
 #include <orm/tiny/model.hpp>
 #include <orm/utils/configuration.hpp>

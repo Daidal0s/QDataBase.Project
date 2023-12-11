@@ -5,6 +5,9 @@
 #include "mainwindow.h"
 #include "login.h"
 #include "dbconnection.h"
+#ifdef DEV_BUILD
+#include "dev.h"
+#endif
 
 namespace Ui {
 class LoginWindow;
@@ -24,7 +27,10 @@ public:
     explicit LoginWindow(QWidget *parent = nullptr);
     ~LoginWindow();
 public:
-    MainWindow *mainWindow;
+    QSharedPointer<MainWindow> mainWindow;
+#ifdef DEV_BUILD
+    QSharedPointer<Dev> w_dev;
+#endif
 public:
     QString getLogin() const;
     Login::ROLE getRole() const;
