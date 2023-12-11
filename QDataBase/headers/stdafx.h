@@ -24,6 +24,7 @@
 
 #include <QDir>
 
+#include <QRandomGenerator>
 #include <QPointer>
 #include <QSharedPointer>
 #include <QSharedDataPointer>

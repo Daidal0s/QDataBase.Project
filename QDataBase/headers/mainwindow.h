@@ -16,15 +16,22 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 private:
     Ui::MainWindow *ui;
+    
     Login::ROLE _userRole;
-    QList<QString> _namesOfFillableFields;
+    
+    QList<QString> _tableNamesList;
+    QStringList _namesForFill;
+    QMap<QString, int> _tableNames;
+    // QVariantList dfghjdofikj; // ТУТ НАДО СДЕЛАТЬ ПРИКОЛ ТИПА МОЛ ЕБАТ КРЧ ТАКАЯ ТЕМА СЮДА НАДО НУ ЭТО ВООБЩЕ В МОДУЛИ КЛАСС К МОДУЛЯМ В КОТОРОМ БУДУТ ЗАПОЛНЯТЬСЯ ТАБЛИЦЫ КАК ИНСЕРТ 
+
+    QMap<QString, QStringList> _tablesAndFillables; 
+
     QVector<QSharedPointer<QTextEdit>> _fillableFields; 
-    QList<QString> _tableNames;
-    // QMap<QString, > asd; 
     QVector<QSharedPointer<QSqlRelationalTableModel>> _modelVector;
 private:
     void clearHidden(const QSqlRelationalTableModel *model);
-    void fillFields(const QSqlRelationalTableModel *model);
+    void setTablesAndFillables();
+    void setFillFields(const QSqlRelationalTableModel *model);
     void printFillableFields();
 private slots:
     void on_cb_model_currentIndexChanged(int index);
