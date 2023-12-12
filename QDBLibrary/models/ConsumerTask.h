@@ -10,7 +10,9 @@ class UserData;
 class TaskTypeConsumer;
 class TaskStatusConsumer;
 
-class ConsumerTask final : public Model<ConsumerTask,UserData,TaskTypeConsumer,TaskStatusConsumer>, public Fillable<ConsumerTask>
+class ConsumerTask final : 
+    public Model<ConsumerTask,UserData,TaskTypeConsumer,TaskStatusConsumer>, 
+    public Fillable<ConsumerTask>
 {
     friend Fillable;
     friend Model;

@@ -10,7 +10,9 @@ class UserData;
 class EmployeePosition;
 class EmployeeStatus;
 
-class Employee final : public Model<Employee,UserData,EmployeePosition,EmployeeStatus>, public Fillable<Employee>
+class Employee final : 
+    public Model<Employee,UserData,EmployeePosition,EmployeeStatus>, 
+    public Fillable<Employee>
 {
     friend Fillable;
     friend Model;

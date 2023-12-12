@@ -8,7 +8,9 @@ using Orm::Tiny::Model;
 class UserData;
 class ProjectStatus;
 
-class Project final : public Model<Project,UserData,ProjectStatus>, public Fillable<Project>
+class Project final : 
+    public Model<Project,UserData,ProjectStatus>, 
+    public Fillable<Project>
 {
     friend Fillable;
     friend Model;

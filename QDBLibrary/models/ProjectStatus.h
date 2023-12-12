@@ -1,9 +1,12 @@
 #pragma once
 #include "stdafx.h"
+#include "fillable.h"
 
 using Orm::Tiny::Model;
 
-class ProjectStatus final : public Model<ProjectStatus>, public Fillable<ProjectStatus>
+class ProjectStatus final : 
+    public Model<ProjectStatus>, 
+    public Fillable<ProjectStatus>
 {
     friend Fillable;
     friend Model;

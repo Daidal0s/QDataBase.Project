@@ -32,13 +32,7 @@ void LoginWindow::on_pb_login_clicked()
 
     _login = ui->le_login->text();
     QString password = ui->le_password->text();
-
-#ifdef DEV_BUILD
-    _login = "admin";
-    password = "admin";
-    _userRole = Login::ROLE::ADMIN;
-#endif
-    
+   
     if (userData->whereKey(_login).doesntExist())
     {
         ui->lb_info->setText("User doesn't exists! Try again");
@@ -53,7 +47,7 @@ void LoginWindow::on_pb_login_clicked()
 
     _userRole = Login::setLogin(userData->whereKey(_login).pluck("RoleID").at(0).toInt());
 
-    mainWindow = QSharedPointer<MainWindow>(new MainWindow(_userRole));
+    mainWindow = QSharedPointer<MainWindow>(new MainWindow(_login, _userRole));
     this->hide();
     mainWindow->show();
 }

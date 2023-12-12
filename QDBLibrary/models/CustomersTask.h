@@ -12,7 +12,9 @@ class TaskTypeCustomer;
 class TaskStatusCustomer;
 class Project;
 
-class CustomersTask final : public Model<CustomersTask,LegalForm,TaskTypeCustomer,TaskStatusCustomer,Project>, public Fillable<CustomersTask>
+class CustomersTask final : 
+    public Model<CustomersTask,LegalForm,TaskTypeCustomer,TaskStatusCustomer,Project>, 
+    public Fillable<CustomersTask>
 {
     friend Fillable;
     friend Model;

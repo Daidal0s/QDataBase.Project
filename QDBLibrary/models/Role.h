@@ -4,7 +4,9 @@
 
 using Orm::Tiny::Model;
 
-class Role final : public Model<Role>, public Fillable<Role>
+class Role final : 
+    public Model<Role>, 
+    public Fillable<Role>
 {
     friend Fillable;
     friend Model;

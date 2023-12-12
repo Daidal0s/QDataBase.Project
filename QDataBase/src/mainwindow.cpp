@@ -3,6 +3,69 @@
 #include "ui_dev.h"
 
 
+QStringList MainWindow::getRemoveColumn() const
+{
+    QVariantList variantsToStrings;
+    QStringList names;
+    switch (_tableNames[_currentModel->tableName()])
+    {
+    case 0:
+        variantsToStrings = ConsumerTask::pluck("TaskID").toList();
+        break;
+    case 1:
+        variantsToStrings = CustomersTask::pluck("INN").toList();
+        break;
+    case 2:
+        variantsToStrings = EmployeePosition::pluck("id").toList();
+        break;
+    case 3:
+        variantsToStrings = EmployeeStatus::pluck("id").toList();
+        break;
+    case 4:
+        variantsToStrings = Employee::pluck("AuthData").toList();
+        break;
+    case 5:
+        variantsToStrings = LegalForm::pluck("id").toList();
+        break;
+    case 6:
+        variantsToStrings = ProjectStatus::pluck("id").toList();
+        break;
+    case 7:
+        variantsToStrings = Project::pluck("ProjectName").toList();
+        break;
+    case 8:
+        variantsToStrings.push_back("Nothing To Delete");
+        break;
+    case 9:
+        variantsToStrings = Role::pluck("id").toList();
+        break;
+    case 10:
+        variantsToStrings = TaskStatusConsumer::pluck("id").toList();
+        break;
+    case 11:
+        variantsToStrings = TaskStatusCustomer::pluck("id").toList();
+        break;
+    case 12:
+        variantsToStrings = TaskTypeConsumer::pluck("id").toList();
+        break;
+    case 13:
+        variantsToStrings = TaskTypeCustomer::pluck("id").toList();
+        break;
+    case 14:
+        variantsToStrings = UserData::pluck("Login").toList();
+        break;
+    default:
+        break;
+    }
+
+    for (auto c : variantsToStrings)
+    {
+        names.push_back(c.toString());
+    }
+
+    return names;
+}
+
 void setupModel(QSharedPointer<QSqlRelationalTableModel> &model, const QString &nameOfTable)
 {
     if (Orm::Schema::hasTable(nameOfTable))
@@ -27,9 +90,17 @@ void setTablesNames(QStringList &list)
     }
 }
 
-void fillRelationalTable(QVector<QSharedPointer<QSqlRelationalTableModel>> &tableWithModels, const QList<QString> &tableWithNames)
+QStringList fillRelationalTable(QVector<QSharedPointer<QSqlRelationalTableModel>> &tableWithModels, const QList<QString> &tableWithNames, const QList<QString> &tableWithFilterNames)
 {
-    for (const auto &c : tableWithNames)
+
+    QStringList filteredTableNames = tableWithNames;
+
+    for (const auto &c : tableWithFilterNames)
+    {
+        filteredTableNames.removeAt(filteredTableNames.indexOf(c));
+    }
+
+    for (const auto &c : filteredTableNames)
     {
         tableWithModels.push_back(QSharedPointer<QSqlRelationalTableModel>(new QSqlRelationalTableModel()));
         setupModel(tableWithModels.last(), c);
@@ -37,11 +108,55 @@ void fillRelationalTable(QVector<QSharedPointer<QSqlRelationalTableModel>> &tabl
 
         qDebug() << tableWithModels.last()->tableName() << " FILLED!";
     }
+
+    return filteredTableNames;
 }
 
-void MainWindow::clearHidden(const QSqlRelationalTableModel *model)
+void MainWindow::setFilterTableNames()
 {
-    for(int iii = 0; iii < model->columnCount(); ++iii)
+    switch (_userRole)
+    {
+    case Login::ROLE::ADMIN:
+        _tableNamesToFilter.push_back("projects_employees");
+        break;
+    case Login::ROLE::DEV:
+        _tableNamesToFilter.push_back("roles");
+        _tableNamesToFilter.push_back("customers_tasks");
+        _tableNamesToFilter.push_back("employee_positions");
+        _tableNamesToFilter.push_back("employee_status");
+        _tableNamesToFilter.push_back("employees");
+        _tableNamesToFilter.push_back("legal_forms");
+        _tableNamesToFilter.push_back("project_status");
+        _tableNamesToFilter.push_back("projects");
+        _tableNamesToFilter.push_back("projects_employees");
+        _tableNamesToFilter.push_back("task_type_customer");
+        _tableNamesToFilter.push_back("task_status_consumer");
+        _tableNamesToFilter.push_back("task_status_customer");
+        _tableNamesToFilter.push_back("task_type_consumer");
+        _tableNamesToFilter.push_back("user_data");
+        break;
+    case Login::ROLE::TEAMLEADER:
+        _tableNamesToFilter.push_back("roles");
+        _tableNamesToFilter.push_back("legal_forms");
+        _tableNamesToFilter.push_back("employee_status");
+        _tableNamesToFilter.push_back("employee_positions");
+        _tableNamesToFilter.push_back("project_status");
+        _tableNamesToFilter.push_back("task_type_customer");
+        _tableNamesToFilter.push_back("task_status_consumer");
+        _tableNamesToFilter.push_back("task_status_customer");
+        _tableNamesToFilter.push_back("task_type_consumer");
+        _tableNamesToFilter.push_back("projects_employees");
+        break;
+    default:
+        break;
+    }
+}
+
+void MainWindow::clearHidden()
+{
+    qDebug() << _currentModel->columnCount();
+
+    for(int iii = 0; iii < _currentModel->columnCount(); ++iii)
     {
         if (ui->tv_sql->isColumnHidden(iii))
             ui->tv_sql->showColumn(iii);
@@ -54,7 +169,7 @@ void MainWindow::setTablesAndFillables()
 
     for (const auto c : _tableNamesList)
     {
-        _tablesAndFillables[c] = QStringList();
+        QStringList();
         _tableNames[c] = index++;
     }
 
@@ -122,6 +237,7 @@ void MainWindow::setFillFields(const QSqlRelationalTableModel *model)
     for (int iii = 0; iii < _namesForFill.size(); ++iii)
     {
         _fillableFields.push_back(QSharedPointer<QTextEdit>(new QTextEdit()));
+        _fillableFields.last()->setMaximumSize(250,100000);
         _fillableFields.last()->setPlaceholderText(_namesForFill.at(iii));
     }
 }
@@ -134,16 +250,17 @@ void MainWindow::printFillableFields()
     }
 }
 
-MainWindow::MainWindow(Login::ROLE userRole, QMainWindow *parent)
-    : _userRole(userRole), QMainWindow(parent), ui(new Ui::MainWindow)
+
+MainWindow::MainWindow(const QString &userName, Login::ROLE userRole, QMainWindow *parent)
+    : _userName(userName), _userRole(userRole), QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
     setTablesNames(_tableNamesList);
-    fillRelationalTable(_modelVector, _tableNamesList);
+    setFilterTableNames();
+    ui->cb_model->addItems(fillRelationalTable(_modelVector, _tableNamesList, _tableNamesToFilter));
     setTablesAndFillables();
-    ui->cb_model->addItems(_tableNamesList);
-    
+
     this->hide();
 
     if (dbConnection.getDB().isOpen())
@@ -163,20 +280,25 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_cb_model_currentIndexChanged(int index)
 {
-    auto model = _modelVector.at(index).get();
-    clearHidden(model);
+    _fillableFields.clear();
+    ui->cb_remove->clear();
 
-    ui->tv_sql->setModel(model);
+    _currentModel = QSharedPointer<QSqlRelationalTableModel>(_modelVector.at(index));
+    clearHidden();
+
+    ui->cb_remove->addItems(getRemoveColumn());
+
+    ui->tv_sql->setModel(_currentModel.get());
 
     ui->tv_sql->resizeColumnsToContents();
 
-    setFillFields(model);
+    setFillFields(_currentModel.get());
     printFillableFields();
 }
 
 void MainWindow::on_pb_submitChanges_clicked()
 {
-    _modelVector.at(ui->cb_model->currentIndex())->submitAll();
+    _currentModel->submitAll();
 }
 
 void MainWindow::on_actionTo_csv_triggered()
@@ -211,4 +333,133 @@ void MainWindow::on_actionTo_csv_triggered()
     query.exec((_modelVector.at(ui->cb_model->currentIndex())->query().executedQuery()));
     fillData(query, excelModel, csvData);
     QtCSV::Writer::write(csv_filepath, csvData);
+}
+
+void MainWindow::on_pb_createRecord_clicked()
+{
+    _dataToFill.clear();
+
+    Orm::Tiny::AttributeItem columnAtribute;
+
+    for (int iii = 0; iii < _fillableFields.size(); ++iii)
+    {
+        columnAtribute.key = _namesForFill.at(iii);
+        columnAtribute.value = _fillableFields.at(iii)->toPlainText();
+        _dataToFill.push_back(columnAtribute);
+    }
+
+    switch (_tableNames[_currentModel->tableName()])
+    {
+    case 0:
+        ConsumerTask::create(_dataToFill);
+        break;
+    case 1:
+        CustomersTask::create(_dataToFill);
+        break;
+    case 2:
+        EmployeePosition::create(_dataToFill);
+        break;
+    case 3:
+        EmployeeStatus::create(_dataToFill);
+        break;
+    case 4:
+        Employee::create(_dataToFill);
+        break;
+    case 5:
+        LegalForm::create(_dataToFill);
+        break;
+    case 6:
+        ProjectStatus::create(_dataToFill);
+        break;
+    case 7:
+        Project::create(_dataToFill);
+        break;
+    case 8:
+        ProjectRelatedEmployees::create(_dataToFill);
+        break;
+    case 9:
+        Role::create(_dataToFill);
+        break;
+    case 10:
+        TaskStatusConsumer::create(_dataToFill);
+        break;
+    case 11:
+        TaskStatusCustomer::create(_dataToFill);
+        break;
+    case 12:
+        TaskTypeConsumer::create(_dataToFill);
+        break;
+    case 13:
+        TaskTypeCustomer::create(_dataToFill);
+        break;
+    case 14:
+        UserData::create(_dataToFill);
+        break;
+    default:
+        break;
+    }
+
+    _currentModel->submitAll();
+
+    ui->cb_remove->clear();
+    ui->cb_remove->addItems(getRemoveColumn());
+}
+
+void MainWindow::on_pb_remove_clicked()
+{
+    auto rowToRemove = ui->cb_remove->currentText();
+    switch (_tableNames[_currentModel->tableName()])
+    {
+    case 0:
+        ConsumerTask::whereEq("TaskID", rowToRemove)->remove();
+        break;
+    case 1:
+        CustomersTask::whereEq("INN", rowToRemove)->remove();
+        break;
+    case 2:
+        EmployeePosition::whereEq("id", rowToRemove)->remove();
+        break;
+    case 3:
+        EmployeeStatus::whereEq("id", rowToRemove)->remove();
+        break;
+    case 4:
+        Employee::whereEq("ProjectName", rowToRemove)->remove();
+        break;
+    case 5:
+        LegalForm::whereEq("", rowToRemove)->remove();
+        break;
+    case 6:
+        ProjectStatus::whereEq("", rowToRemove)->remove();
+        break;
+    case 7:
+        Project::whereEq("", rowToRemove)->remove();
+        break;
+    case 8:
+        break;
+    case 9:
+        Role::whereEq("id", rowToRemove)->remove();
+        break;
+    case 10:
+        TaskStatusConsumer::whereEq("id", rowToRemove)->remove();
+        break;
+    case 11:
+        TaskStatusCustomer::whereEq("id", rowToRemove)->remove();
+        break;
+    case 12:
+        TaskTypeConsumer::whereEq("id", rowToRemove)->remove();
+        break;
+    case 13:
+        TaskTypeCustomer::whereEq("id", rowToRemove)->remove();
+        break;
+    case 14:
+        UserData::whereEq("Login", rowToRemove)->remove();
+        break;
+    default:
+        break;
+    }
+
+    _currentModel->submitAll();
+
+    ui->cb_remove->clear();
+    ui->cb_remove->addItems(getRemoveColumn());
 }

@@ -1,9 +1,13 @@
 #pragma once
 #include "stdafx.h"
+#include "fillable.h"
+
 
 using Orm::Tiny::Model;
 
-class TaskStatusCustomer final : public Model<TaskStatusCustomer>, public Fillable<TaskStatusCustomer>
+class TaskStatusCustomer final : 
+    public Model<TaskStatusCustomer>, 
+    public Fillable<TaskStatusCustomer>
 {
     friend Fillable;
     friend Model;

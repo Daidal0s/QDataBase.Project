@@ -4,7 +4,9 @@
 
 using Orm::Tiny::Model;
 
-class UserData final : public Model<UserData,Role>, public Fillable<UserData>
+class UserData final : 
+    public Model<UserData,Role>, 
+    public Fillable<UserData>
 {
     friend Fillable;
     friend Model;

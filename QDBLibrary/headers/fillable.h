@@ -1,13 +1,13 @@
 #pragma once
 #include "stdafx.h"
 
-template <class Model>
+template <class T>
 class Fillable
 {
-friend Model;
+friend T;
 public:
     static QStringList getFillableList()
     {
-        return Model::u_fillable;
+        return T::u_fillable;
     }
 };
