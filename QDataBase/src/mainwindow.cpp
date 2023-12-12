@@ -76,6 +76,19 @@ void setupModel(QSharedPointer<QSqlRelationalTableModel> &model, const QString &
     }
 }
 
+QMap<QString, int> fillEmployeeMap()
+{
+    auto map = QMap<QString, int>();
+    auto employeeNames = Employee::pluck("FIO").toList();
+
+    for (auto c : employeeNames)
+    {
+        map[c.toString()] = Employee::select("ComplitedTasks")->whereEq("FIO", c.toString()).value("ComplitedTasks").toInt();
+    }
+
+    return map;
+}
+
 void setTablesNames(QStringList &list)
 {
     auto tableNamesDB = Orm::Schema::getAllTables();
@@ -463,3 +476,10 @@ void MainWindow::on_pb_remove_clicked()
     ui->cb_remove->clear();
     ui->cb_remove->addItems(getRemoveColumn());
 }
+
+void MainWindow::on_aData_in_diagrams_triggered()
+{
+    auto chart = new WorkPie(fillEmployeeMap(), this);
+    chart->show();
+}
+

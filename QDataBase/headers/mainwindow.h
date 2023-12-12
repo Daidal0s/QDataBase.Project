@@ -5,6 +5,7 @@
 #include "stdafx.h"
 #include "dbconnection.h"
 #include "login.h"
+#include "workpie.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -45,9 +46,9 @@ private slots:
     void on_pb_submitChanges_clicked();
     void on_pb_createRecord_clicked();
 private slots:
+    void on_aData_in_diagrams_triggered();
     void on_actionTo_csv_triggered();
     void on_pb_remove_clicked();
-
 public:
     MainWindow(const QString &userName = "admin", Login::ROLE userRole = Login::ROLE::ADMIN, QMainWindow *parent = nullptr);
     ~MainWindow();

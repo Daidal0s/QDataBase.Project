@@ -12,6 +12,7 @@ set(SOURCE_FILES
         ${SOURCE_FILES_DIR}/dev.cpp
         ${SOURCE_FILES_DIR}/dbconnection.cpp
         ${SOURCE_FILES_DIR}/login.cpp
+        ${SOURCE_FILES_DIR}/workpie.cpp 
 )
 
 set(HEADER_FILES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/headers)
@@ -21,6 +22,7 @@ set(HEADER_FILES
         ${HEADER_FILES_DIR}/dev.h
         ${HEADER_FILES_DIR}/dbconnection.h
         ${HEADER_FILES_DIR}/login.h
+        ${HEADER_FILES_DIR}/workpie.h 
 )
 
 set(UI_FILES_DIR ${SOURCE_FILES_DIR})
@@ -28,6 +30,7 @@ set(UI_FILES
         ${UI_FILES_DIR}/mainwindow.ui
         ${UI_FILES_DIR}/dev.ui
         ${UI_FILES_DIR}/loginwindow.ui
+        ${UI_FILES_DIR}/workpie.ui
 )
 
 set(TS_FILES QDataBase_ru_RU.ts)
@@ -45,6 +48,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         res.qrc
+        
     )
 
     if(DEV_BUILD)
@@ -72,6 +76,7 @@ target_include_directories(QDataBase PRIVATE ${HEADER_FILES_DIR})
 target_precompile_headers(QDataBase PRIVATE ${HEADER_FILES_DIR}/stdafx.h)
 target_link_libraries(QDataBase PRIVATE Qt${QT_VERSION_MAJOR}::Widgets
                                 PRIVATE Qt${QT_VERSION_MAJOR}::Sql
+                                PRIVATE Qt${QT_VERSION_MAJOR}::Charts
                                 PRIVATE qtcsv
                                 PRIVATE QDBLibrary
 )

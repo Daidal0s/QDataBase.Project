@@ -16,6 +16,11 @@
 #include <QSqlRelationalDelegate>
 #include <QSqlRelationalTableModel>
 
+#include <QChart>
+#include <QPieSlice>
+#include <QPieSeries>
+#include <QChartView>
+
 #include <QTextEdit>
 #include <QPushButton>
 #include <QTableView>

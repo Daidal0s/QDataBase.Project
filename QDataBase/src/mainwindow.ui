@@ -110,7 +110,7 @@
      <x>0</x>
      <y>0</y>
      <width>937</width>
-     <height>22</height>
+     <height>23</height>
     </rect>
    </property>
    <property name="defaultUp">
@@ -126,7 +126,7 @@
     <property name="title">
      <string>&amp;Visualize</string>
     </property>
-    <addaction name="actionData_in_diagrams"/>
+    <addaction name="aData_in_diagrams"/>
    </widget>
    <addaction name="menu_Export"/>
    <addaction name="menuVisualize"/>
@@ -137,7 +137,7 @@
     <string>This table to .csv</string>
    </property>
   </action>
-  <action name="actionData_in_diagrams">
+  <action name="aData_in_diagrams">
    <property name="text">
     <string>Data in diagrams</string>
    </property>

@@ -140,6 +140,7 @@ void createDB()
             table.string("ContactDataNum").nullable();
             table.string("ContactDataEMail").nullable();
             table.unsignedInteger("StatusID").nullable();
+            table.unsignedInteger("ComplitedTasks").nullable();
 
             table.foreign("AuthData").references("Login").on("user_data").cascadeOnDelete().cascadeOnUpdate();
             table.foreign("PositionID").references("id").on("employee_positions").nullOnDelete().cascadeOnUpdate();
@@ -548,6 +549,7 @@ void fillDB(bool isCreatedBefore)
                 {"ContactDataNum", "on the moon"},
                 {"ContactDataEMail", "mkjnhud@gmail.com"},
                 {"StatusID", 3},
+                {"ComplitedTasks",0},
             });
 
         Employee::create(
@@ -560,6 +562,7 @@ void fillDB(bool isCreatedBefore)
                 {"ContactDataNum", "+7 909 678 14 65"},
                 {"ContactDataEMail", "iamrasist2@gmail.com"},
                 {"StatusID", 2},
+                {"ComplitedTasks",5},
             });
 
         Employee::create(
@@ -572,6 +575,7 @@ void fillDB(bool isCreatedBefore)
                 {"ContactDataNum", "+7 865 678 54 67"},
                 {"ContactDataEMail", "cripper.minecraft@gmail.com"},
                 {"StatusID", 1},
+                {"ComplitedTasks",5},
             });
 
         Employee::create(
@@ -584,6 +588,7 @@ void fillDB(bool isCreatedBefore)
                 {"ContactDataNum", "Помолись"},
                 {"ContactDataEMail", "theEmperor@emperium.com"},
                 {"StatusID", 2},
+                {"ComplitedTasks",8},
             });
     }
 
@@ -625,6 +630,7 @@ void fillDB(bool isCreatedBefore)
         {"ContactDataNum", "+7 967 234 32 00"},
         {"ContactDataEMail", "iramonami@gmail.com"},
         {"StatusID", 2},
+        {"ComplitedTasks",7},
     });
 
     Employee::create(
@@ -637,6 +643,7 @@ void fillDB(bool isCreatedBefore)
         {"ContactDataNum", "+7 967 234 32 00"},
         {"ContactDataEMail", "iramonami@gmail.com"},
         {"StatusID", 2},
+        {"ComplitedTasks",12},
     });
 
     Employee::create(
@@ -649,6 +656,7 @@ void fillDB(bool isCreatedBefore)
         {"ContactDataNum", "+7 952 332 32 00"},
         {"ContactDataEMail", "ferariUK@gmail.com"},
         {"StatusID", 2},
+        {"ComplitedTasks",1},
     });
 
     Employee::create(
@@ -661,6 +669,7 @@ void fillDB(bool isCreatedBefore)
         {"ContactDataNum", "+7 972 916 32 00"},
         {"ContactDataEMail", "holmses4ever@gmail.com"},
         {"StatusID", 2},
+        {"ComplitedTasks",22},
     });
 
     ConsumerTask::updateOrCreate(

@@ -53,6 +53,7 @@ private:
         {"ContactDataNum","NEED2FILL"},
         {"ContactDataEMail","NEED2FILL"},
         {"StatusID",""},
+        {"ComplitedTasks",0},
     };
 
     inline static QStringList u_fillable {
@@ -64,6 +65,7 @@ private:
         "ContactDataNum",
         "ContactDataEMail",
         "StatusID",
+        "ComplitedTasks",
     };
 
     QHash<QString, RelationVisitor> u_relations {
